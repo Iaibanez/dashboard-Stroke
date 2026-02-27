@@ -26,142 +26,198 @@ st.set_page_config(
 # ─────────────────────────────────────────────
 #  PALETTE — PROFESSIONAL LIGHT MODE
 # ─────────────────────────────────────────────
-PALETTE = {
-    "bg":         "#F4F6FA",
-    "surface":    "#FFFFFF",
-    "surface2":   "#EDF0F7",
-    "border":     "#CDD5E0",
-    "accent":     "#1A7F5A",
-    "accent2":    "#1558C0",
-    "accent3":    "#C0392B",
-    "accent4":    "#D97706",
-    "text":       "#1A2332",
-    "text_muted": "#566478",
-    "stroke_yes": "#C0392B",
-    "stroke_no":  "#1558C0",
-    "gradient_a": "#1A7F5A",
-    "gradient_b": "#1558C0",
-}
+BG         = "#F4F6FA"
+SURFACE    = "#FFFFFF"
+SURFACE2   = "#EDF0F7"
+BORDER     = "#CDD5E0"
+ACCENT     = "#1A7F5A"
+ACCENT2    = "#1558C0"
+ACCENT3    = "#C0392B"
+ACCENT4    = "#D97706"
+TEXT       = "#1A2332"
+TEXT_MUTED = "#566478"
+STROKE_YES = "#C0392B"
+STROKE_NO  = "#1558C0"
 
-SEQ_COLORS = ["#1558C0", "#1A7F5A", "#D97706", "#C0392B", "#7C3AED", "#EA580C"]
+SEQ_COLORS = ["#1558C0","#1A7F5A","#D97706","#C0392B","#7C3AED","#EA580C"]
 
 # ─────────────────────────────────────────────
 #  CSS — LIGHT MODE
 # ─────────────────────────────────────────────
-st.markdown(f"""
+st.markdown("""
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
 
-  html, body, .stApp, [class*="css"] {{
-      background-color: {PALETTE["bg"]} !important;
-      color: {PALETTE["text"]};
+  html, body, .stApp {
+      background-color: #F4F6FA !important;
+      color: #1A2332;
       font-family: 'Inter', sans-serif;
-  }}
-  .block-container {{ background-color: {PALETTE["bg"]}; padding-top: 2rem; }}
+  }
+  .block-container { background-color: #F4F6FA !important; padding-top: 2rem; }
 
   /* Tabs */
-  .stTabs [data-baseweb="tab-list"] {{
-      gap: 4px; background: {PALETTE["surface"]};
-      padding: 6px 10px; border-radius: 12px;
-      border: 1px solid {PALETTE["border"]};
+  .stTabs [data-baseweb="tab-list"] {
+      gap: 4px;
+      background: #FFFFFF;
+      padding: 6px 10px;
+      border-radius: 12px;
+      border: 1px solid #CDD5E0;
       box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  }}
-  .stTabs [data-baseweb="tab"] {{
-      background: transparent; border-radius: 8px;
-      color: {PALETTE["text_muted"]}; font-family: 'Syne', sans-serif;
-      font-weight: 600; font-size: 13px; padding: 8px 16px;
-      border: none; transition: all 0.2s ease;
-  }}
-  .stTabs [aria-selected="true"] {{ background: {PALETTE["accent2"]}; color: #fff !important; }}
-  .stTabs [data-baseweb="tab-panel"] {{ padding-top: 24px; }}
+  }
+  .stTabs [data-baseweb="tab"] {
+      background: transparent !important;
+      border-radius: 8px;
+      color: #566478 !important;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      padding: 8px 16px;
+      border: none !important;
+      transition: all 0.2s ease;
+  }
+  .stTabs [aria-selected="true"] {
+      background: #1558C0 !important;
+      color: #FFFFFF !important;
+  }
+  .stTabs [data-baseweb="tab-panel"] { padding-top: 24px; }
 
   /* Cards */
-  .quest-card {{
-      background: {PALETTE["surface"]}; border: 1px solid {PALETTE["border"]};
-      border-radius: 12px; padding: 20px 24px; margin-bottom: 16px;
+  .quest-card {
+      background: #FFFFFF;
+      border: 1px solid #CDD5E0;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
       box-shadow: 0 1px 6px rgba(0,0,0,0.05);
-  }}
-  .kpi-card {{
-      background: {PALETTE["surface"]}; border: 1px solid {PALETTE["border"]};
-      border-left: 4px solid {PALETTE["accent2"]}; border-radius: 10px;
-      padding: 16px 20px; text-align: center;
+  }
+  .kpi-card {
+      background: #FFFFFF !important;
+      border: 1px solid #CDD5E0 !important;
+      border-left: 4px solid #1558C0 !important;
+      border-radius: 10px !important;
+      padding: 16px 20px;
+      text-align: center;
       box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  }}
-  .kpi-value {{
-      font-family: 'Space Mono', monospace; font-size: 26px;
-      font-weight: 700; color: {PALETTE["text"]}; line-height: 1.1;
-  }}
-  .kpi-label {{
-      font-size: 11px; color: {PALETTE["text_muted"]};
-      text-transform: uppercase; letter-spacing: 1px; margin-top: 4px;
-  }}
-  .kpi-delta {{ font-size: 12px; margin-top: 6px; font-weight: 600; }}
-  .kpi-delta.up   {{ color: {PALETTE["accent3"]}; }}
-  .kpi-delta.down {{ color: {PALETTE["accent"]};  }}
+  }
+  .kpi-value {
+      font-family: 'Space Mono', monospace;
+      font-size: 26px;
+      font-weight: 700;
+      color: #1A2332;
+      line-height: 1.1;
+  }
+  .kpi-label {
+      font-size: 11px;
+      color: #566478;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+  }
+  .kpi-delta { font-size: 12px; margin-top: 6px; font-weight: 600; }
+  .kpi-delta.up   { color: #C0392B; }
+  .kpi-delta.down { color: #1A7F5A; }
 
   /* Missing card */
-  .missing-card {{
-      background: {PALETTE["surface"]}; border: 1px solid {PALETTE["border"]};
-      border-radius: 12px; padding: 18px 22px;
-      position: relative; overflow: hidden;
+  .missing-card {
+      background: #FFFFFF;
+      border: 1px solid #CDD5E0;
+      border-radius: 12px;
+      padding: 18px 22px;
+      position: relative;
+      overflow: hidden;
       box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  }}
-  .missing-card::before {{
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, {PALETTE["accent4"]}, {PALETTE["accent3"]});
-  }}
-  .mc-variable {{ font-family: 'Space Mono', monospace; font-size: 14px; color: {PALETTE["accent4"]}; font-weight: 700; }}
-  .mc-count    {{ font-size: 22px; font-weight: 700; color: {PALETTE["text"]}; }}
-  .mc-pct      {{ font-size: 13px; color: {PALETTE["text_muted"]}; }}
+  }
+  .missing-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #D97706, #C0392B);
+  }
+  .mc-variable { font-family: 'Space Mono', monospace; font-size: 14px; color: #D97706; font-weight: 700; }
+  .mc-count    { font-size: 22px; font-weight: 700; color: #1A2332; }
+  .mc-pct      { font-size: 13px; color: #566478; }
 
   /* Headers */
-  .section-title {{
-      font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800;
-      color: {PALETTE["text"]}; letter-spacing: -0.3px; margin-bottom: 8px;
-  }}
-  .section-subtitle {{
-      font-size: 13px; color: {PALETTE["text_muted"]};
-      margin-bottom: 20px; line-height: 1.5;
-  }}
+  .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: #1A2332;
+      letter-spacing: -0.3px;
+      margin-bottom: 8px;
+  }
+  .section-subtitle {
+      font-size: 13px;
+      color: #566478;
+      margin-bottom: 20px;
+      line-height: 1.5;
+  }
 
   /* Hero */
-  .hero-wrap {{
+  .hero-wrap {
       background: linear-gradient(135deg,#E8EFF9 0%,#F0F5FF 50%,#E8F5EE 100%);
-      border: 1px solid {PALETTE["border"]}; border-radius: 16px;
-      padding: 40px 48px; margin-bottom: 32px;
-      position: relative; overflow: hidden;
+      border: 1px solid #CDD5E0;
+      border-radius: 16px;
+      padding: 40px 48px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
       box-shadow: 0 2px 12px rgba(21,88,192,0.07);
-  }}
-  .hero-wrap::after {{
-      content: '🧠'; position: absolute; right: 48px; top: 50%;
-      transform: translateY(-50%); font-size: 80px; opacity: 0.10;
-  }}
-  .hero-tag  {{ font-family: 'Space Mono', monospace; font-size: 11px; color: {PALETTE["accent2"]}; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }}
-  .hero-title {{ font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; color: {PALETTE["text"]}; line-height: 1.1; margin-bottom: 12px; }}
-  .hero-body  {{ font-size: 14px; color: {PALETTE["text_muted"]}; max-width: 650px; line-height: 1.6; }}
+  }
+  .hero-wrap::after {
+      content: '🧠';
+      position: absolute;
+      right: 48px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 80px;
+      opacity: 0.10;
+  }
+  .hero-tag   { font-family: 'Space Mono', monospace; font-size: 11px; color: #1558C0; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+  .hero-title { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; color: #1A2332; line-height: 1.1; margin-bottom: 12px; }
+  .hero-body  { font-size: 14px; color: #566478; max-width: 650px; line-height: 1.6; }
 
   /* Letter badge */
-  .letter-badge {{
+  .letter-badge {
       display: inline-block;
-      background: linear-gradient(135deg, {PALETTE["accent2"]}, {PALETTE["gradient_a"]});
-      color: white; font-family: 'Space Mono', monospace; font-size: 18px;
-      font-weight: 700; width: 42px; height: 42px; border-radius: 10px;
-      text-align: center; line-height: 42px; margin-right: 12px;
-      vertical-align: middle; box-shadow: 0 2px 8px rgba(21,88,192,0.2);
-  }}
+      background: linear-gradient(135deg, #1558C0, #1A7F5A);
+      color: white;
+      font-family: 'Space Mono', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      text-align: center;
+      line-height: 42px;
+      margin-right: 12px;
+      vertical-align: middle;
+      box-shadow: 0 2px 8px rgba(21,88,192,0.2);
+  }
 
   /* Insight box */
-  .insight-box {{
-      background: rgba(21,88,192,0.05); border-left: 3px solid {PALETTE["accent2"]};
-      border-radius: 0 8px 8px 0; padding: 12px 16px;
-      font-size: 13px; color: {PALETTE["text_muted"]}; margin-top: 12px; line-height: 1.5;
-  }}
-  .insight-box strong {{ color: {PALETTE["text"]}; }}
+  .insight-box {
+      background: rgba(21,88,192,0.05);
+      border-left: 3px solid #1558C0;
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #566478;
+      margin-top: 12px;
+      line-height: 1.5;
+  }
+  .insight-box strong { color: #1A2332; }
 
   /* Misc */
-  hr {{ border-color: {PALETTE["border"]}; margin: 24px 0; }}
-  div[data-testid="stDataFrame"] {{ border-radius: 10px; overflow: hidden; border: 1px solid {PALETTE["border"]}; }}
-  [data-testid="stSidebar"] {{ background: {PALETTE["surface"]} !important; border-right: 1px solid {PALETTE["border"]}; }}
+  hr { border-color: #CDD5E0; margin: 24px 0; }
+  div[data-testid="stDataFrame"] {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #CDD5E0;
+  }
+  [data-testid="stSidebar"] {
+      background: #FFFFFF !important;
+      border-right: 1px solid #CDD5E0;
+  }
 </style>
 """, unsafe_allow_html=True)
 
@@ -171,12 +227,12 @@ st.markdown(f"""
 # ─────────────────────────────────────────────
 def apply_theme(fig, title="", height=None, extra=None):
     layout = dict(
-        paper_bgcolor=PALETTE["surface"],
-        plot_bgcolor=PALETTE["surface"],
-        font=dict(family="Inter, sans-serif", color=PALETTE["text"], size=12),
-        title=dict(text=title, font=dict(family="Syne, sans-serif", size=16, color=PALETTE["text"])),
-        legend=dict(bgcolor=PALETTE["surface2"], bordercolor=PALETTE["border"],
-                    borderwidth=1, font_color=PALETTE["text"]),
+        paper_bgcolor=SURFACE,
+        plot_bgcolor=SURFACE,
+        font=dict(family="Inter, sans-serif", color=TEXT, size=12),
+        title=dict(text=title, font=dict(family="Syne, sans-serif", size=16, color=TEXT)),
+        legend=dict(bgcolor=SURFACE2, bordercolor=BORDER,
+                    borderwidth=1, font_color=TEXT),
         margin=dict(t=50, b=40, l=40, r=20),
         colorway=SEQ_COLORS,
     )
@@ -185,15 +241,15 @@ def apply_theme(fig, title="", height=None, extra=None):
     if extra:
         layout.update(extra)
     fig.update_layout(**layout)
-    fig.update_xaxes(gridcolor=PALETTE["border"], zerolinecolor=PALETTE["border"],
-                     color=PALETTE["text_muted"], linecolor=PALETTE["border"])
-    fig.update_yaxes(gridcolor=PALETTE["border"], zerolinecolor=PALETTE["border"],
-                     color=PALETTE["text_muted"], linecolor=PALETTE["border"])
+    fig.update_xaxes(gridcolor=BORDER, zerolinecolor=BORDER,
+                     color=TEXT_MUTED, linecolor=BORDER)
+    fig.update_yaxes(gridcolor=BORDER, zerolinecolor=BORDER,
+                     color=TEXT_MUTED, linecolor=BORDER)
     return fig
 
 
 # ─────────────────────────────────────────────
-#  DATA
+#  DATA LOADING & PREPROCESSING
 # ─────────────────────────────────────────────
 @st.cache_data
 def load_data():
@@ -223,9 +279,9 @@ def cramers_v(x, y):
     return np.nan if min(kc-1, rc-1) == 0 else np.sqrt(phi2c / min(kc-1, rc-1))
 
 def kpi_html(value, label, delta=None, delta_type="up", border_color=None):
-    color = border_color or PALETTE["accent2"]
+    color = border_color or ACCENT2
     d = f'<div class="kpi-delta {delta_type}">{delta}</div>' if delta else ""
-    return f"""<div class="kpi-card" style="border-left-color:{color}">
+    return f"""<div class="kpi-card" style="border-left-color:{color} !important;">
         <div class="kpi-value">{value}</div>
         <div class="kpi-label">{label}</div>{d}</div>"""
 
@@ -235,13 +291,13 @@ def missing_card_html(var, count, pct):
         <div class="mc-variable">{var}</div>
         <div class="mc-count">{count:,}</div>
         <div class="mc-pct">{pct:.2f}% missing</div>
-        <div style="margin-top:10px;background:{PALETTE['border']};border-radius:4px;height:4px;">
-        <div style="width:{w}%;background:linear-gradient(90deg,{PALETTE['accent4']},{PALETTE['accent3']});height:4px;border-radius:4px;"></div>
+        <div style="margin-top:10px;background:{BORDER};border-radius:4px;height:4px;">
+        <div style="width:{w}%;background:linear-gradient(90deg,{ACCENT4},{ACCENT3});height:4px;border-radius:4px;"></div>
         </div></div>"""
 
 
 # ─────────────────────────────────────────────
-#  LOAD
+#  LOAD DATA
 # ─────────────────────────────────────────────
 with st.spinner("Loading dataset…"):
     try:
@@ -279,23 +335,26 @@ with tab_prev:
       <div class="hero-title">Stroke Prediction<br>Analysis Dashboard</div>
       <div class="hero-body">
         According to the World Health Organization (WHO), stroke is the
-        <strong style="color:{PALETTE['text']}">2nd leading cause of death globally</strong>,
-        responsible for approximately <strong style="color:{PALETTE['accent3']}">11% of total deaths</strong>.
+        <strong style="color:{TEXT}">2nd leading cause of death globally</strong>,
+        responsible for approximately <strong style="color:{ACCENT3}">11% of total deaths</strong>.
         This dataset predicts whether a patient is likely to get a stroke based on parameters like
         gender, age, various diseases, and smoking status.
       </div>
     </div>""", unsafe_allow_html=True)
 
-    total = len(df); strokes = df["stroke"].sum(); sr = df["stroke"].mean()
+    total   = len(df)
+    strokes = df["stroke"].sum()
+    sr      = df["stroke"].mean()
+
     c1,c2,c3,c4,c5,c6,c7 = st.columns(7)
     for col, val, lbl, delta, dt, clr in [
-        (c1, f"{total:,}",            "Total Patients",      None,          "up",   PALETTE["accent2"]),
-        (c2, f"{strokes:,}",          "Stroke Cases",        "4.87%",       "up",   PALETTE["accent3"]),
-        (c3, f"{sr:.1%}",             "Stroke Rate",         "Imbalanced",  "up",   PALETTE["accent3"]),
-        (c4, f"{df['age'].mean():.1f} yr", "Mean Age",       None,          "down", PALETTE["accent4"]),
-        (c5, f"{df['avg_glucose_level'].mean():.0f}", "Avg Glucose", None,  "down", PALETTE["gradient_a"]),
-        (c6, f"{df['bmi'].mean():.1f}",    "Avg BMI",        None,          "down", PALETTE["accent2"]),
-        (c7, f"{df['heart_disease'].mean():.1%}", "Heart Disease", None,    "up",   "#7C3AED"),
+        (c1, f"{total:,}",                       "Total Patients",     None,               "up",   ACCENT2),
+        (c2, f"{strokes:,}",                     "Stroke Cases",       "4.87%",            "up",   ACCENT3),
+        (c3, f"{sr:.1%}",                        "Stroke Rate",        "Imbalanced",       "up",   ACCENT3),
+        (c4, f"{df['age'].mean():.1f} yr",        "Mean Age",           None,               "down", ACCENT4),
+        (c5, f"{df['avg_glucose_level'].mean():.0f}", "Avg Glucose",    None,               "down", ACCENT),
+        (c6, f"{df['bmi'].mean():.1f}",           "Avg BMI",            None,               "down", ACCENT2),
+        (c7, f"{df['heart_disease'].mean():.1%}", "Heart Disease",      None,               "up",   "#7C3AED"),
     ]:
         with col:
             st.markdown(kpi_html(val, lbl, delta, dt, clr), unsafe_allow_html=True)
@@ -306,13 +365,16 @@ with tab_prev:
     with cl:
         st.markdown('<div class="section-title">Stroke Distribution</div>', unsafe_allow_html=True)
         fig_d = go.Figure(go.Pie(
-            labels=["No Stroke","Stroke"], values=df["stroke"].value_counts().values,
-            hole=0.65, marker_colors=[PALETTE["accent2"], PALETTE["accent3"]],
-            textfont_color=PALETTE["text"], textinfo="percent+label",
+            labels=["No Stroke","Stroke"],
+            values=df["stroke"].value_counts().values,
+            hole=0.65,
+            marker_colors=[ACCENT2, ACCENT3],
+            textfont_color=TEXT,
+            textinfo="percent+label",
         ))
         apply_theme(fig_d, extra=dict(showlegend=True,
             annotations=[dict(text=f"{sr:.1%}<br><span style='font-size:10px'>Stroke</span>",
-                              showarrow=False, font_size=18, font_color=PALETTE["text"])]))
+                              showarrow=False, font_size=18, font_color=TEXT)]))
         st.plotly_chart(fig_d, use_container_width=True)
 
     with cr:
@@ -320,15 +382,10 @@ with tab_prev:
         st.dataframe(pd.DataFrame({
             "Variable": ["id","gender","age","hypertension","heart_disease","ever_married",
                          "work_type","Residence_type","avg_glucose_level","bmi","smoking_status","stroke"],
-            "Type":     ["ID","Categ.","Num.","Binary","Binary","Categ.","Categ.",
-                         "Categ.","Num.","Num.","Categ.","Target"],
-            "Role":     ["—"]+["Feature"]*10+["Target"],
-        }), use_container_width=True, hide_index=True, height=340)
-
-    st.markdown("""<div class="insight-box">
-        <strong>Dataset at a glance:</strong> 5,110 patient records · 11 features · heavily imbalanced (≈95% no-stroke).
-        Only <code>bmi</code> has missing values (≈3.9%). Analysis follows the <strong>Q-U-E-S-T</strong> framework.
-    </div>""", unsafe_allow_html=True)
+            "Type":     ["int","object","float","int","int","object","object","object","float","float","object","int"],
+            "Role":     ["ID","Feature","Feature","Feature","Feature","Feature",
+                         "Feature","Feature","Feature","Feature","Feature","Target"],
+        }), use_container_width=True, hide_index=True)
 
 
 # ══════════════════════════════════════════════  Q
@@ -342,27 +399,27 @@ with tab_q:
     """, unsafe_allow_html=True)
 
     for tag, clr, ttl, body in [
-        ("Q1", PALETTE["accent2"],   "Demographics & Clinical Characteristics",
+        ("Q1", ACCENT2,  "Demographics & Clinical Characteristics",
          "What patient demographics and clinical characteristics are associated with stroke occurrence?"),
-        ("Q2", PALETTE["gradient_a"],"Interaction Effects",
+        ("Q2", ACCENT,   "Interaction Effects",
          "Are there interaction effects between demographics and clinical variables beyond what each factor suggests independently?"),
-        ("Q3", PALETTE["accent4"],   "Missing Values & Class Imbalance",
+        ("Q3", ACCENT4,  "Missing Values & Class Imbalance",
          "How are missing values and class imbalance distributed, and could they introduce bias in our analysis?"),
-        ("Q4", PALETTE["accent3"],   "Class Imbalance & Modeling",
+        ("Q4", ACCENT3,  "Class Imbalance & Modeling",
          "Is stroke occurrence evenly distributed, or is there significant class imbalance that could affect modeling?"),
     ]:
         st.markdown(f"""<div class="quest-card" style="border-left:3px solid {clr}">
             <span style="font-family:'Space Mono',monospace;font-size:11px;color:{clr};text-transform:uppercase;letter-spacing:2px;">{tag}</span>
-            <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:{PALETTE['text']};margin:6px 0 8px;">{ttl}</div>
-            <div style="font-size:14px;color:{PALETTE['text_muted']};line-height:1.6;">{body}</div>
+            <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:{TEXT};margin:6px 0 8px;">{ttl}</div>
+            <div style="font-size:14px;color:{TEXT_MUTED};line-height:1.6;">{body}</div>
         </div>""", unsafe_allow_html=True)
 
     st.markdown("<hr>", unsafe_allow_html=True)
     st.markdown(f"""<div class="quest-card">
       <div class="section-title">Target Audience & Constraints</div>
-      <div style="font-size:13px;color:{PALETTE['text_muted']};line-height:1.7;">
-        <strong style="color:{PALETTE['text']}">Audience:</strong> Clinical analytics team and hospital quality improvement officers.<br>
-        <strong style="color:{PALETTE['text']}">Constraints:</strong> Patient privacy requires aggregated reporting — no individual-level identifiers in outputs.
+      <div style="font-size:13px;color:{TEXT_MUTED};line-height:1.7;">
+        <strong style="color:{TEXT}">Audience:</strong> Clinical analytics team and hospital quality improvement officers.<br>
+        <strong style="color:{TEXT}">Constraints:</strong> Patient privacy requires aggregated reporting — no individual-level identifiers in outputs.
       </div>
     </div>""", unsafe_allow_html=True)
 
@@ -395,31 +452,35 @@ with tab_u:
     st.markdown("<hr>", unsafe_allow_html=True)
 
     # ── MAR: % difference chart ──
+    # Uses the same logic as EDA: groupby BMI_missing, compute % diff vs BMI-present group
     st.markdown('<div class="section-title">Is BMI Missing at Random?</div>', unsafe_allow_html=True)
     st.markdown(
         '<div class="section-subtitle">'
-        'Percentage difference between the BMI-missing and BMI-present groups for each clinical variable. '
-        'Negative = missing group has a lower rate than present group.'
+        'Percentage difference between the BMI-missing group and the BMI-present group for each clinical variable. '
+        'A negative value means the missing-BMI group has a <strong>lower</strong> rate than those with BMI recorded.'
         '</div>', unsafe_allow_html=True)
 
+    # Build MAR table exactly as in original EDA
     df_raw2 = df_raw.copy()
     df_raw2["bmi"] = pd.to_numeric(df_raw2["bmi"], errors="coerce")
     df_raw2["BMI_missing"] = df_raw2["bmi"].isna()
 
-    grp  = df_raw2.groupby("BMI_missing")[["age","hypertension","heart_disease","stroke"]].mean()
-    base = grp.loc[False]   # BMI present = reference
-    comp = grp.loc[True]    # BMI missing
+    grp     = df_raw2.groupby("BMI_missing")[["age","hypertension","heart_disease","stroke"]].mean()
+    base    = grp.loc[False]   # BMI present = reference (denominator)
+    comp    = grp.loc[True]    # BMI missing = comparison
     pct_diff = ((comp - base) / base * 100).round(1)
 
     vars_mar  = pct_diff.index.tolist()
     vals_diff = pct_diff.values.tolist()
-    bar_clrs  = [PALETTE["accent3"] if v < 0 else PALETTE["accent2"] for v in vals_diff]
+    # Red = missing group is lower (negative % diff), Blue = missing group is higher
+    bar_clrs = [ACCENT3 if v < 0 else ACCENT2 for v in vals_diff]
 
+    # Reference table
     ref_tbl = pd.DataFrame({
-        "Variable":              vars_mar,
-        "BMI Present (mean)":    grp.loc[False].round(4).values,
-        "BMI Missing (mean)":    grp.loc[True].round(4).values,
-        "% Difference":          [f"{v:+.1f}%" for v in vals_diff],
+        "Variable":           vars_mar,
+        "BMI Present (mean)": grp.loc[False].round(4).values,
+        "BMI Missing (mean)": grp.loc[True].round(4).values,
+        "% Difference":       [f"{v:+.1f}%" for v in vals_diff],
     })
 
     col_mar, col_tbl = st.columns([1.6, 1])
@@ -427,13 +488,14 @@ with tab_u:
     with col_mar:
         fig_mar = go.Figure()
         fig_mar.add_trace(go.Bar(
-            x=vars_mar, y=vals_diff,
+            x=vars_mar,
+            y=vals_diff,
             marker_color=bar_clrs,
             text=[f"{v:+.1f}%" for v in vals_diff],
             textposition="outside",
-            textfont=dict(color=PALETTE["text"], size=12, family="Space Mono"),
+            textfont=dict(color=TEXT, size=12, family="Space Mono"),
         ))
-        fig_mar.add_hline(y=0, line=dict(color=PALETTE["text_muted"], width=1.5, dash="dash"))
+        fig_mar.add_hline(y=0, line=dict(color=TEXT_MUTED, width=1.5, dash="dash"))
         apply_theme(fig_mar, title="% Difference: BMI-Missing vs. BMI-Present Group")
         fig_mar.update_yaxes(title_text="% Difference vs. BMI-Present group", ticksuffix="%")
         fig_mar.update_xaxes(title_text="Clinical Variable")
@@ -453,26 +515,26 @@ with tab_u:
 
     st.markdown("<hr>", unsafe_allow_html=True)
 
-    # KNN results
+    # KNN imputation results
     st.markdown('<div class="section-title">KNN Imputation Results</div>', unsafe_allow_html=True)
     bmi_imp_mean = df[df_raw2["BMI_missing"] == True]["bmi"].mean()
 
     ci1, ci2, ci3 = st.columns(3)
     with ci1:
         st.markdown(kpi_html(f"{int(miss_df.loc['bmi','missing_count'])}",
-                             "BMI Null Count (Before)", border_color=PALETTE["accent3"]), unsafe_allow_html=True)
+                             "BMI Null Count (Before)", border_color=ACCENT3), unsafe_allow_html=True)
     with ci2:
         st.markdown(kpi_html("0","BMI Null Count (After)","✓ Fully imputed","down",
-                             PALETTE["gradient_a"]), unsafe_allow_html=True)
+                             ACCENT), unsafe_allow_html=True)
     with ci3:
         st.markdown(kpi_html(f"{bmi_imp_mean:.2f}","Mean BMI of Imputed Rows",
-                             border_color=PALETTE["accent4"]), unsafe_allow_html=True)
+                             border_color=ACCENT4), unsafe_allow_html=True)
 
     fig_bmi = go.Figure()
     fig_bmi.add_trace(go.Histogram(x=df["bmi"], name="After KNN Imputation",
-        nbinsx=60, marker_color=PALETTE["accent2"], opacity=0.7, histnorm="percent"))
+        nbinsx=60, marker_color=ACCENT2, opacity=0.7, histnorm="percent"))
     fig_bmi.add_trace(go.Histogram(x=df_raw2["bmi"].dropna(), name="Original (Non-missing)",
-        nbinsx=60, marker_color=PALETTE["gradient_a"], opacity=0.7, histnorm="percent"))
+        nbinsx=60, marker_color=ACCENT, opacity=0.7, histnorm="percent"))
     apply_theme(fig_bmi, title="BMI Distribution — Before vs. After Imputation",
                 extra=dict(barmode="overlay"))
     fig_bmi.update_xaxes(title_text="BMI")
@@ -487,16 +549,16 @@ with tab_u:
     cj1, cj2, cj3 = st.columns(3)
     with cj1:
         st.markdown(kpi_html(f"{sc[0]:,}","No Stroke (Class 0)",f"{sc[0]/len(df):.1%}",
-                             "down", PALETTE["accent2"]), unsafe_allow_html=True)
+                             "down", ACCENT2), unsafe_allow_html=True)
     with cj2:
         st.markdown(kpi_html(f"{sc[1]:,}","Stroke (Class 1)",f"{sc[1]/len(df):.1%}",
-                             "up", PALETTE["accent3"]), unsafe_allow_html=True)
+                             "up", ACCENT3), unsafe_allow_html=True)
     with cj3:
         st.markdown(kpi_html(f"{ratio:.0f}:1","Imbalance Ratio","Requires resampling for ML",
-                             "up", PALETTE["accent4"]), unsafe_allow_html=True)
+                             "up", ACCENT4), unsafe_allow_html=True)
 
 
-# ══════════════════════════════════════════════  E — all categorical charts
+# ══════════════════════════════════════════════  E  — Univariate Profiling
 with tab_e:
     st.markdown(f"""
     <div style="display:flex;align-items:center;margin-bottom:6px;">
@@ -506,12 +568,12 @@ with tab_e:
     <div class="section-subtitle">Distribution of stroke rate across every categorical and numerical variable.</div>
     """, unsafe_allow_html=True)
 
-    # Numerical violin
+    # ── Numerical violin ──
     st.markdown('<div class="section-title">Numerical Variables — Distribution by Stroke</div>',
                 unsafe_allow_html=True)
     num_var = st.selectbox("Select variable", ["age", "avg_glucose_level", "bmi"], index=0)
     fig_kde = go.Figure()
-    for sv, clr, lbl in [(0, PALETTE["accent2"],"No Stroke"),(1, PALETTE["accent3"],"Stroke")]:
+    for sv, clr, lbl in [(0, ACCENT2, "No Stroke"), (1, ACCENT3, "Stroke")]:
         sub = df[df["stroke"] == sv][num_var].dropna()
         fig_kde.add_trace(go.Violin(x=[lbl]*len(sub), y=sub, name=lbl,
             fillcolor=clr, opacity=0.7, line_color=clr,
@@ -524,19 +586,19 @@ with tab_e:
 
     st.markdown("<hr>", unsafe_allow_html=True)
 
-    # All 6 categorical variables in 2-col grid
+    # ── All 6 categorical variables in 2-col grid ──
     st.markdown('<div class="section-title">Categorical Variables — Stroke Rate by Category</div>',
                 unsafe_allow_html=True)
-    st.markdown('<div class="section-subtitle">Stroke rate for every category of each categorical feature, displayed side by side.</div>',
+    st.markdown('<div class="section-subtitle">Stroke rate for every category of each categorical feature, sorted from highest to lowest risk.</div>',
                 unsafe_allow_html=True)
 
     cat_vars = [
-        ("gender",        "Gender"),
-        ("hypertension",  "Hypertension"),
-        ("heart_disease", "Heart Disease"),
-        ("ever_married",  "Ever Married"),
-        ("work_type",     "Work Type"),
-        ("smoking_status","Smoking Status"),
+        ("gender",         "Gender"),
+        ("hypertension",   "Hypertension"),
+        ("heart_disease",  "Heart Disease"),
+        ("ever_married",   "Ever Married"),
+        ("work_type",      "Work Type"),
+        ("smoking_status", "Smoking Status"),
     ]
 
     for i in range(0, len(cat_vars), 2):
@@ -548,8 +610,8 @@ with tab_e:
             vk, vl = cat_vars[idx]
             with row_cols[j]:
                 cs = (df.groupby(vk)["stroke"]
-                      .agg(["mean","sum","count"])
-                      .reset_index())
+                        .agg(["mean","sum","count"])
+                        .reset_index())
                 cs.columns = [vk, "stroke_rate", "stroke_cases", "total"]
                 cs = cs.sort_values("stroke_rate", ascending=False)
 
@@ -559,12 +621,12 @@ with tab_e:
                     y=cs["stroke_rate"],
                     marker=dict(
                         color=cs["stroke_rate"].tolist(),
-                        colorscale=[[0, PALETTE["accent2"]], [1, PALETTE["accent3"]]],
+                        colorscale=[[0, ACCENT2], [1, ACCENT3]],
                         showscale=False,
                     ),
                     text=[f"{r:.1%}" for r in cs["stroke_rate"]],
                     textposition="outside",
-                    textfont=dict(color=PALETTE["text"], size=11),
+                    textfont=dict(color=TEXT, size=11),
                     customdata=cs[["stroke_cases","total"]].values,
                     hovertemplate=(
                         "<b>%{x}</b><br>Stroke Rate: %{y:.1%}<br>"
@@ -583,7 +645,7 @@ with tab_e:
     </div>""", unsafe_allow_html=True)
 
 
-# ══════════════════════════════════════════════  S
+# ══════════════════════════════════════════════  S  — Relationships & Patterns
 with tab_s:
     st.markdown(f"""
     <div style="display:flex;align-items:center;margin-bottom:6px;">
@@ -591,17 +653,19 @@ with tab_s:
       <span class="section-title" style="margin-bottom:0">Study — Relationships & Patterns</span>
     </div>""", unsafe_allow_html=True)
 
-    # ── Age slider (moved here from Explore) ──
+    # ── Age slider (moved from Explore) ──
     st.markdown('<div class="section-title">🎚️ Age & Stroke Risk — Interactive Explorer</div>',
                 unsafe_allow_html=True)
     st.markdown('<div class="section-subtitle">Use the slider to define an age window and observe how stroke probability changes.</div>',
                 unsafe_allow_html=True)
 
-    age_range = st.slider("Select Age Range",
-                          min_value=int(df["age"].min()),
-                          max_value=int(df["age"].max()),
-                          value=(int(df["age"].min()), int(df["age"].max())),
-                          step=1, format="%d yr")
+    age_range = st.slider(
+        "Select Age Range",
+        min_value=int(df["age"].min()),
+        max_value=int(df["age"].max()),
+        value=(int(df["age"].min()), int(df["age"].max())),
+        step=1, format="%d yr"
+    )
 
     df_age = df.groupby("age")["stroke"].agg(["mean","sum","count"]).reset_index()
     df_age.columns = ["age","stroke_prob","stroke_cases","total"]
@@ -612,37 +676,36 @@ with tab_s:
     wa1, wa2, wa3 = st.columns(3)
     with wa1:
         st.markdown(kpi_html(f"{len(dw):,}", f"Patients {age_range[0]}–{age_range[1]} yr",
-                             border_color=PALETTE["accent2"]), unsafe_allow_html=True)
+                             border_color=ACCENT2), unsafe_allow_html=True)
     with wa2:
         st.markdown(kpi_html(f"{dw['stroke'].sum():,}", "Stroke Cases in Window",
-                             border_color=PALETTE["accent3"]), unsafe_allow_html=True)
+                             border_color=ACCENT3), unsafe_allow_html=True)
     with wa3:
         st.markdown(kpi_html(f"{dw['stroke'].mean():.1%}", "Stroke Rate in Window",
-                             border_color=PALETTE["accent4"]), unsafe_allow_html=True)
+                             border_color=ACCENT4), unsafe_allow_html=True)
 
     fig_age = go.Figure()
     fig_age.add_trace(go.Bar(x=daf["age"], y=daf["stroke_prob"], name="Raw Probability",
-        marker_color=PALETTE["accent3"], opacity=0.35, yaxis="y"))
+        marker_color=ACCENT3, opacity=0.35, yaxis="y"))
     fig_age.add_trace(go.Scatter(x=daf["age"], y=daf["smooth"], name="Smoothed (5-yr)",
-        mode="lines", line=dict(color=PALETTE["accent4"], width=3), yaxis="y"))
+        mode="lines", line=dict(color=ACCENT4, width=3), yaxis="y"))
     fig_age.add_trace(go.Bar(x=daf["age"], y=daf["total"], name="Patient Count",
-        marker_color=PALETTE["accent2"], opacity=0.15, yaxis="y2"))
+        marker_color=ACCENT2, opacity=0.15, yaxis="y2"))
     fig_age.update_layout(
-        paper_bgcolor=PALETTE["surface"], plot_bgcolor=PALETTE["surface"],
-        font=dict(family="Inter, sans-serif", color=PALETTE["text"], size=12),
+        paper_bgcolor=SURFACE, plot_bgcolor=SURFACE,
+        font=dict(family="Inter, sans-serif", color=TEXT, size=12),
         title=dict(text="Stroke Probability by Age",
-                   font=dict(family="Syne, sans-serif", size=16, color=PALETTE["text"])),
-        xaxis=dict(title="Age (years)", gridcolor=PALETTE["border"],
-                   zerolinecolor=PALETTE["border"], color=PALETTE["text_muted"],
-                   linecolor=PALETTE["border"]),
+                   font=dict(family="Syne, sans-serif", size=16, color=TEXT)),
+        xaxis=dict(title="Age (years)", gridcolor=BORDER,
+                   zerolinecolor=BORDER, color=TEXT_MUTED, linecolor=BORDER),
         yaxis=dict(title="Stroke Probability", tickformat=".0%",
-                   gridcolor=PALETTE["border"], zerolinecolor=PALETTE["border"],
-                   color=PALETTE["text_muted"], linecolor=PALETTE["border"]),
+                   gridcolor=BORDER, zerolinecolor=BORDER,
+                   color=TEXT_MUTED, linecolor=BORDER),
         yaxis2=dict(title="Patient Count", overlaying="y", side="right",
-                    showgrid=False, color=PALETTE["text_muted"]),
+                    showgrid=False, color=TEXT_MUTED),
         barmode="overlay",
-        legend=dict(orientation="h", y=-0.18, bgcolor=PALETTE["surface2"],
-                    bordercolor=PALETTE["border"], borderwidth=1, font_color=PALETTE["text"]),
+        legend=dict(orientation="h", y=-0.18, bgcolor=SURFACE2,
+                    bordercolor=BORDER, borderwidth=1, font_color=TEXT),
         margin=dict(t=50, b=70, l=40, r=70),
         colorway=SEQ_COLORS,
     )
@@ -664,10 +727,10 @@ with tab_s:
         corr = df[num_cols].corr()
         fig_h = go.Figure(go.Heatmap(
             z=corr.values, x=corr.columns, y=corr.columns,
-            colorscale=[[0,PALETTE["accent2"]],[0.5,"#FFFFFF"],[1,PALETTE["accent3"]]],
+            colorscale=[[0,ACCENT2],[0.5,"#FFFFFF"],[1,ACCENT3]],
             zmid=0, zmin=-1, zmax=1,
             text=np.round(corr.values,2), texttemplate="%{text}", textfont_size=11,
-            colorbar=dict(tickfont_color=PALETTE["text_muted"]),
+            colorbar=dict(tickfont_color=TEXT_MUTED),
         ))
         apply_theme(fig_h, title="Pearson Correlation Heatmap", height=420)
         fig_h.update_xaxes(tickangle=-35)
@@ -682,10 +745,10 @@ with tab_s:
                 cv_mat.loc[c1,c2] = 1.0 if c1==c2 else cramers_v(df[c1].astype(str), df[c2].astype(str))
         fig_cv = go.Figure(go.Heatmap(
             z=cv_mat.values.astype(float), x=cv_mat.columns, y=cv_mat.columns,
-            colorscale=[[0,"#FFFFFF"],[0.5,PALETTE["accent2"]],[1,PALETTE["gradient_a"]]],
+            colorscale=[[0,"#FFFFFF"],[0.5,ACCENT2],[1,ACCENT]],
             zmin=0, zmax=1,
             text=np.round(cv_mat.values.astype(float),2), texttemplate="%{text}", textfont_size=11,
-            colorbar=dict(tickfont_color=PALETTE["text_muted"]),
+            colorbar=dict(tickfont_color=TEXT_MUTED),
         ))
         apply_theme(fig_cv, title="Cramér's V Heatmap (Categorical)", height=420)
         fig_cv.update_xaxes(tickangle=-35)
@@ -701,7 +764,7 @@ with tab_s:
     if len(pair_cols) >= 2:
         sdf = df[pair_cols+["stroke"]].sample(min(1500,len(df)), random_state=42)
         fig_p = px.scatter_matrix(sdf, dimensions=pair_cols, color="stroke",
-            color_discrete_map={0:PALETTE["accent2"], 1:PALETTE["accent3"]},
+            color_discrete_map={0:ACCENT2, 1:ACCENT3},
             labels={c:c.replace("_"," ").title() for c in pair_cols}, opacity=0.5)
         fig_p.update_traces(diagonal_visible=False, marker_size=3)
         apply_theme(fig_p, title="Pairwise Scatter (sample n=1,500)", height=500)
@@ -720,12 +783,12 @@ with tab_s:
     gluc_thresh = st.slider("Glucose threshold (mg/dL)", 50, 300, 125, step=5)
     fig_int = px.scatter(df.sample(min(2000,len(df)), random_state=0),
         x="age", y="avg_glucose_level", color="stroke",
-        color_discrete_map={0:PALETTE["accent2"], 1:PALETTE["accent3"]},
+        color_discrete_map={0:ACCENT2, 1:ACCENT3},
         opacity=0.55, labels={"age":"Age","avg_glucose_level":"Avg Glucose","stroke":"Stroke"})
     fig_int.add_hline(y=gluc_thresh,
-        line=dict(color=PALETTE["accent4"], width=2, dash="dash"),
+        line=dict(color=ACCENT4, width=2, dash="dash"),
         annotation_text=f"Threshold: {gluc_thresh} mg/dL",
-        annotation_font_color=PALETTE["accent4"])
+        annotation_font_color=ACCENT4)
     apply_theme(fig_int, title="Age vs. Glucose — Stroke Incidence (sample n=2,000)")
     st.plotly_chart(fig_int, use_container_width=True)
 
@@ -741,10 +804,10 @@ with tab_s:
     fig_quad = go.Figure(go.Bar(
         x=q_labels, y=q_rates,
         marker=dict(color=q_rates,
-                    colorscale=[[0,PALETTE["accent2"]],[1,PALETTE["accent3"]]],
+                    colorscale=[[0,ACCENT2],[1,ACCENT3]],
                     showscale=False),
         text=[f"{r:.1%}" for r in q_rates], textposition="outside",
-        textfont=dict(color=PALETTE["text"]),
+        textfont=dict(color=TEXT),
     ))
     apply_theme(fig_quad, title="Stroke Rate by Age–Glucose Quadrant")
     fig_quad.update_yaxes(title_text="Stroke Rate", tickformat=".1%")
@@ -762,27 +825,27 @@ with tab_t:
     """, unsafe_allow_html=True)
 
     for tag, clr, ttl, body in [
-        ("Q1", PALETTE["accent2"],   "Demographics & Clinical Risk Factors",
+        ("Q1", ACCENT2,  "Demographics & Clinical Risk Factors",
          "Age is the strongest predictor — risk increases sharply after 55. Hypertension and heart disease are the most discriminating binary features. Higher average glucose is consistently associated with stroke events."),
-        ("Q2", PALETTE["gradient_a"],"Interaction Effects",
+        ("Q2", ACCENT,   "Interaction Effects",
          "High age + elevated glucose creates the highest-risk profile, with stroke rates exceeding 15% in the oldest, high-glucose quartile. Ever-married status proxies age-related risk. Residence type and gender show minimal independent contribution."),
-        ("Q3", PALETTE["accent4"],   "Missing Values",
+        ("Q3", ACCENT4,  "Missing Values",
          "Only BMI is missing (~3.9%, 201 rows). Pattern is non-random (MNAR): missing rows tend to be younger patients with lower comorbidities. KNN imputation (k=5) preserves distributional shape."),
-        ("Q4", PALETTE["accent3"],   "Class Imbalance",
+        ("Q4", ACCENT3,  "Class Imbalance",
          "Dataset is severely imbalanced: ~95% no-stroke vs. ~5% stroke (ratio ≈19:1). Downstream models require SMOTE, undersampling, or cost-sensitive learning. AUROC, F1, and precision-recall curves should be prioritized over accuracy."),
     ]:
         cb, cy = st.columns([0.07, 0.93])
         with cb:
-            st.markdown(f"""<div style="background:linear-gradient(135deg,{clr},{PALETTE['surface2']});
+            st.markdown(f"""<div style="background:linear-gradient(135deg,{clr},{SURFACE2});
                 border-radius:10px;padding:12px 8px;text-align:center;
                 font-family:'Space Mono',monospace;font-weight:700;font-size:13px;
-                color:{PALETTE['text']};margin-top:4px;border:1px solid {PALETTE['border']};">{tag}</div>""",
+                color:{TEXT};margin-top:4px;border:1px solid {BORDER};">{tag}</div>""",
                 unsafe_allow_html=True)
         with cy:
             st.markdown(f"""<div class="quest-card" style="border-left:3px solid {clr};margin-top:4px;">
                 <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
-                            color:{PALETTE['text']};margin-bottom:8px;">{ttl}</div>
-                <div style="font-size:13px;color:{PALETTE['text_muted']};line-height:1.7;">{body}</div>
+                            color:{TEXT};margin-bottom:8px;">{ttl}</div>
+                <div style="font-size:13px;color:{TEXT_MUTED};line-height:1.7;">{body}</div>
             </div>""", unsafe_allow_html=True)
 
     st.markdown("<hr>", unsafe_allow_html=True)
@@ -790,30 +853,30 @@ with tab_t:
 
     baseline = df["stroke"].mean()
     rfs = {
-        "Age > 65":             df[df["age"]>65]["stroke"].mean(),
-        "Hypertension":         df[df["hypertension"]==1]["stroke"].mean(),
-        "Heart Disease":        df[df["heart_disease"]==1]["stroke"].mean(),
-        "High Glucose (>140)":  df[df["avg_glucose_level"]>140]["stroke"].mean(),
-        "BMI Obese (>30)":      df[df["bmi"]>30]["stroke"].mean(),
-        "Ever Married":         df[df["ever_married"]=="Yes"]["stroke"].mean(),
-        "Formerly Smoked":      df[df["smoking_status"]=="formerly smoked"]["stroke"].mean(),
-        "Urban Resident":       df[df["Residence_type"]=="Urban"]["stroke"].mean(),
+        "Age > 65":            df[df["age"]>65]["stroke"].mean(),
+        "Hypertension":        df[df["hypertension"]==1]["stroke"].mean(),
+        "Heart Disease":       df[df["heart_disease"]==1]["stroke"].mean(),
+        "High Glucose (>140)": df[df["avg_glucose_level"]>140]["stroke"].mean(),
+        "BMI Obese (>30)":     df[df["bmi"]>30]["stroke"].mean(),
+        "Ever Married":        df[df["ever_married"]=="Yes"]["stroke"].mean(),
+        "Formerly Smoked":     df[df["smoking_status"]=="formerly smoked"]["stroke"].mean(),
+        "Urban Resident":      df[df["Residence_type"]=="Urban"]["stroke"].mean(),
     }
     rdf = pd.DataFrame({"Factor":list(rfs.keys()),"Stroke Rate":list(rfs.values())})
     rdf["Lift"] = rdf["Stroke Rate"] / baseline
     rdf = rdf.sort_values("Stroke Rate", ascending=True)
 
     fig_r = go.Figure()
-    fig_r.add_vline(x=baseline, line=dict(color=PALETTE["accent4"],width=2,dash="dot"),
+    fig_r.add_vline(x=baseline, line=dict(color=ACCENT4, width=2, dash="dot"),
                     annotation_text=f"Baseline {baseline:.1%}",
-                    annotation_font_color=PALETTE["accent4"])
+                    annotation_font_color=ACCENT4)
     fig_r.add_trace(go.Bar(
         y=rdf["Factor"], x=rdf["Stroke Rate"], orientation="h",
         marker=dict(color=rdf["Stroke Rate"].tolist(),
-                    colorscale=[[0,PALETTE["accent2"]],[1,PALETTE["accent3"]]],
+                    colorscale=[[0,ACCENT2],[1,ACCENT3]],
                     showscale=False),
         text=[f"{r:.1%}  ({l:.1f}x)" for r,l in zip(rdf["Stroke Rate"],rdf["Lift"])],
-        textposition="outside", textfont=dict(color=PALETTE["text"]),
+        textposition="outside", textfont=dict(color=TEXT),
     ))
     apply_theme(fig_r, title="Stroke Rate by Risk Factor vs. Population Baseline",
                 height=420, extra=dict(margin=dict(l=160,r=110,t=50,b=40)))
@@ -822,19 +885,19 @@ with tab_t:
 
     st.markdown(f"""<div class="quest-card" style="border-left:3px solid #7C3AED;margin-top:8px;">
       <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
-                  color:{PALETTE['text']};margin-bottom:10px;">📌 Recommended Next Steps</div>
-      <div style="font-size:13px;color:{PALETTE['text_muted']};line-height:1.9;">
-        <strong style="color:{PALETTE['text']}">1. Address class imbalance</strong> — Apply SMOTE or cost-sensitive classifiers before modeling.<br>
-        <strong style="color:{PALETTE['text']}">2. Feature engineering</strong> — Create interaction terms (age × hypertension, age × glucose).<br>
-        <strong style="color:{PALETTE['text']}">3. Model selection</strong> — Gradient Boosting handles imbalance well; tune with AUROC.<br>
-        <strong style="color:{PALETTE['text']}">4. Fairness audit</strong> — Evaluate model performance across gender and residence subgroups.<br>
-        <strong style="color:{PALETTE['text']}">5. Clinical validation</strong> — Present probability scores to clinical team for threshold calibration.
+                  color:{TEXT};margin-bottom:10px;">📌 Recommended Next Steps</div>
+      <div style="font-size:13px;color:{TEXT_MUTED};line-height:1.9;">
+        <strong style="color:{TEXT}">1. Address class imbalance</strong> — Apply SMOTE or cost-sensitive classifiers before modeling.<br>
+        <strong style="color:{TEXT}">2. Feature engineering</strong> — Create interaction terms (age × hypertension, age × glucose).<br>
+        <strong style="color:{TEXT}">3. Model selection</strong> — Gradient Boosting handles imbalance well; tune with AUROC.<br>
+        <strong style="color:{TEXT}">4. Fairness audit</strong> — Evaluate model performance across gender and residence subgroups.<br>
+        <strong style="color:{TEXT}">5. Clinical validation</strong> — Present probability scores to clinical team for threshold calibration.
       </div>
     </div>""", unsafe_allow_html=True)
 
     st.markdown(f"""<div style="text-align:center;margin-top:40px;padding:24px;
-        border-top:1px solid {PALETTE['border']};
-        font-family:'Space Mono',monospace;font-size:11px;color:{PALETTE['text_muted']};">
+        border-top:1px solid {BORDER};
+        font-family:'Space Mono',monospace;font-size:11px;color:{TEXT_MUTED};">
         Stroke Prediction Dashboard &nbsp;·&nbsp; QUEST Framework &nbsp;·&nbsp; Group 4 &nbsp;·&nbsp;
         Built with Streamlit &amp; Plotly
     </div>""", unsafe_allow_html=True)
