@@ -103,7 +103,7 @@ st.markdown(f"""
   }}
   .kpi-value {{
       font-family: 'Space Mono', monospace;
-      font-size: 28px;
+      font-size: 20px;
       font-weight: 700;
       color: {PALETTE["text"]};
       line-height: 1.1;
