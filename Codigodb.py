@@ -470,7 +470,7 @@ with open("tablaMAR.png", "rb") as f:
 """, unsafe_allow_html=True)
     st.markdown("""
         <div class="section-subtitle" style="margin-top: 8px;">
-            En el articulo se llega a la conclusion anterior, donde logran estandarizar los metodos de eliminacion e imputacion que existen en la literatura para cada escenario de datos faltantes.
+            El artículo concluye proponiendo una sistematización de los métodos de eliminación e imputación existentes en la literatura, organizándolos de acuerdo con el mecanismo de datos faltantes correspondiente en cada escenario (MCAR, MAR MNAR).
         </div>
         """, unsafe_allow_html=True)
 
