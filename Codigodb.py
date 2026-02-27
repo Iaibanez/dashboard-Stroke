@@ -460,7 +460,7 @@ with tab_u:
 # ── Imagen + descripción ──
     st.image(
             "tablaMAR.png",          # ← reemplaza con la ruta o URL de tu imagen
-            use_container_width=True,
+            use_container_width=True,width =500, 
         )
     st.markdown("""
         <div class="section-subtitle" style="margin-top: 8px;">
