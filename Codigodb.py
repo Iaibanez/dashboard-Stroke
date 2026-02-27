@@ -458,10 +458,16 @@ with tab_u:
         """, unsafe_allow_html=True)
 
 # ── Imagen + descripción ──
-    st.image(
-            "tablaMAR.png",          # ← reemplaza con la ruta o URL de tu imagen
-            use_container_width=True,width =20, 
-        )
+import base64
+
+with open("tablaMAR.png", "rb") as f:
+    img_data = base64.b64encode(f.read()).decode()
+
+    st.markdown(f"""
+        <div style="text-align: center;">
+            <img src="data:image/png;base64,{img_data}" style="width: 50%; border-radius: 8px;">
+        </div>
+""", unsafe_allow_html=True)
     st.markdown("""
         <div class="section-subtitle" style="margin-top: 8px;">
             En el articulo se llega a la conclusion anterior, donde logran estandarizar los metodos de eliminacion e imputacion que existen en la literatura para cada escenario de datos faltantes.
