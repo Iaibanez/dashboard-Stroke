@@ -103,13 +103,13 @@ st.markdown(f"""
   }}
   .kpi-value {{
       font-family: 'Space Mono', monospace;
-      font-size: 11px;
+      font-size: 28px;
       font-weight: 700;
       color: {PALETTE["text"]};
       line-height: 1.1;
   }}
   .kpi-label {{
-      font-size: 5px;
+      font-size: 11px;
       color: {PALETTE["text_muted"]};
       text-transform: uppercase;
       letter-spacing: 1px;
