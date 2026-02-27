@@ -470,7 +470,7 @@ with tab_u:
     """, unsafe_allow_html=True)
     st.markdown("""
         <div class="section-subtitle" style="margin-top: 8px;">
-            El artículo concluye proponiendo una sistematización de los métodos de eliminación e imputación existentes en la literatura, organizándolos de acuerdo con el mecanismo de datos faltantes correspondiente en cada escenario (MCAR, MAR MNAR).
+            The article concludes by proposing a systematization of the deletion and imputation methods reported in the literature, organizing them according to the corresponding missing data mechanism in each scenario (MCAR, MAR, MNAR).
         </div>
         """, unsafe_allow_html=True)
 
