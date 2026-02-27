@@ -722,15 +722,24 @@ with tab_e:
         opacity=0.2, yaxis="y2",
     ))
     fig_age.update_layout(
-        **PLOTLY_LAYOUT,
-        title="Stroke Probability by Age",
-        xaxis_title="Age (years)",
+        paper_bgcolor=PALETTE["surface"],
+        plot_bgcolor=PALETTE["surface"],
+        font=dict(family="Inter, sans-serif", color=PALETTE["text"], size=12),
+        title=dict(text="Stroke Probability by Age",
+                   font=dict(family="Syne, sans-serif", size=16, color=PALETTE["text"])),
+        xaxis=dict(title="Age (years)", gridcolor=PALETTE["border"],
+                   zerolinecolor=PALETTE["border"], color=PALETTE["text_muted"]),
         yaxis=dict(title="Stroke Probability", tickformat=".0%",
-                   gridcolor=PALETTE["border"], color=PALETTE["text_muted"]),
+                   gridcolor=PALETTE["border"], zerolinecolor=PALETTE["border"],
+                   color=PALETTE["text_muted"]),
         yaxis2=dict(title="Patient Count", overlaying="y", side="right",
                     showgrid=False, color=PALETTE["text_muted"]),
         barmode="overlay",
-        legend=dict(orientation="h", y=-0.15),
+        legend=dict(orientation="h", y=-0.15, bgcolor=PALETTE["surface2"],
+                    bordercolor=PALETTE["border"], borderwidth=1,
+                    font_color=PALETTE["text"]),
+        margin=dict(t=50, b=40, l=40, r=20),
+        colorway=SEQ_COLORS,
     )
     st.plotly_chart(fig_age, use_container_width=True)
 
