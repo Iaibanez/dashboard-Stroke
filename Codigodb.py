@@ -443,6 +443,18 @@ with tab_u:
     # Missing audit
     st.markdown('<div class="section-title" style="margin-top:8px">⚠️ Missing Value Audit</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-subtitle">Identifying null values across all features before imputation.</div>', unsafe_allow_html=True)
+    # CITA DEL ARTICULO
+    st.markdown("""
+        <div class="insight-box">
+          <strong>Dataset at a glance:</strong> 5,110 patient records with 11 features.
+          The dataset is heavily imbalanced (≈95% no-stroke). Only <code>bmi</code> contains missing values (≈3.9%).
+          Analysis follows the <strong>Q-U-E-S-T</strong> analytical framework.
+          <div class="insight-ref">
+            <em>Reference:</em> Zhou, Y., Aryal, S., &amp; Bouadjeneka, M. R. (2024). 
+            <span style="font-style: italic;">A Comprehensive Review of Handling Missing Data: Exploring Special Missing Mechanisms</span>.
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
 
     miss     = df_raw.isnull().sum()
     miss_pct = (miss / len(df_raw) * 100).round(2)
