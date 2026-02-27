@@ -457,6 +457,17 @@ with tab_u:
         </div>
         """, unsafe_allow_html=True)
 
+# ── Imagen + descripción ──
+st.image(
+    "RUTA_DE_LA_IMAGEN",          # ← reemplaza con la ruta o URL de tu imagen
+    use_container_width=True,
+)
+st.markdown("""
+    <div class="section-subtitle" style="margin-top: 8px;">
+        En el articulo se llega a la conclusion anterior, donde logran estandarizar los metodos de eliminacion e imputacion que existen en la literatura para cada escenario de datos faltantes.
+    </div>
+    """, unsafe_allow_html=True)
+
     miss     = df_raw.isnull().sum()
     miss_pct = (miss / len(df_raw) * 100).round(2)
     miss_df  = pd.DataFrame({"missing_count": miss, "missing_pct": miss_pct}).query("missing_count > 0")
