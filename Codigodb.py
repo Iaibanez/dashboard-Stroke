@@ -50,18 +50,28 @@ st.markdown("""
 
   html, body, .stApp {
       background-color: #F4F6FA !important;
-      color: #1A2332;
+      color: #1A2332 !important;
       font-family: 'Inter', sans-serif;
   }
-  .block-container { background-color: #F4F6FA !important; padding-top: 2rem; }
+  .block-container { 
+      background-color: #F4F6FA !important; 
+      padding-top: 2rem; 
+      color: #1A2332 !important;
+  }
+  
+  /* Force light mode on all elements */
+  .stPlotlyChart, [data-testid="stPlotlyChart"] {
+      background: transparent !important;
+  }
+  .plotly-graph-div { background-color: transparent !important; }
 
   /* Tabs */
   .stTabs [data-baseweb="tab-list"] {
       gap: 4px;
-      background: #FFFFFF;
+      background: #FFFFFF !important;
       padding: 6px 10px;
       border-radius: 12px;
-      border: 1px solid #CDD5E0;
+      border: 1px solid #CDD5E0 !important;
       box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   }
   .stTabs [data-baseweb="tab"] {
@@ -79,7 +89,10 @@ st.markdown("""
       background: #1558C0 !important;
       color: #FFFFFF !important;
   }
-  .stTabs [data-baseweb="tab-panel"] { padding-top: 24px; }
+  .stTabs [data-baseweb="tab-panel"] { 
+      padding-top: 24px; 
+      background: transparent !important;
+  }
 
   /* Cards */
   .quest-card {
@@ -208,16 +221,40 @@ st.markdown("""
   .insight-box strong { color: #1A2332; }
 
   /* Misc */
-  hr { border-color: #CDD5E0; margin: 24px 0; }
+  hr { 
+      border-color: #CDD5E0 !important; 
+      margin: 24px 0; 
+  }
   div[data-testid="stDataFrame"] {
       border-radius: 10px;
       overflow: hidden;
-      border: 1px solid #CDD5E0;
+      border: 1px solid #CDD5E0 !important;
+      background: #FFFFFF !important;
   }
   [data-testid="stSidebar"] {
       background: #FFFFFF !important;
-      border-right: 1px solid #CDD5E0;
+      border-right: 1px solid #CDD5E0 !important;
   }
+  
+  /* Hover and popover styling */
+  .js-plotly-plot .plotly g.hovertext { background: #FFFFFF !important; }
+  .hovertext path { fill: #FFFFFF !important; stroke: #CDD5E0 !important; }
+  .hoverlayer text { fill: #1A2332 !important; }
+  .hoverlayer .hovertext text { fill: #1A2332 !important; }
+  
+  /* Ensure text is always visible */
+  text { fill: #1A2332 !important; }
+  .gtitle { fill: #1A2332 !important; }
+  .xtitle, .ytitle { fill: #1A2332 !important; }
+  .infolayer text { fill: #1A2332 !important; }
+  
+  /* Input elements */
+  input, select, textarea { 
+      background-color: #FFFFFF !important;
+      color: #1A2332 !important;
+      border-color: #CDD5E0 !important;
+  }
+  button { background-color: #F4F6FA !important; color: #1A2332 !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -231,20 +268,29 @@ def apply_theme(fig, title="", height=None, extra=None):
         plot_bgcolor=SURFACE,
         font=dict(family="Inter, sans-serif", color=TEXT, size=12),
         title=dict(text=title, font=dict(family="Syne, sans-serif", size=16, color=TEXT)),
-        legend=dict(bgcolor=SURFACE2, bordercolor=BORDER,
-                    borderwidth=1, font_color=TEXT),
+        legend=dict(bgcolor=SURFACE, bordercolor=BORDER, borderwidth=1, 
+                    font=dict(color=TEXT, size=12), tracegroupgap=10),
         margin=dict(t=50, b=40, l=40, r=20),
         colorway=SEQ_COLORS,
+        hoverlabel=dict(bgcolor=SURFACE, bordercolor=BORDER, font=dict(color=TEXT, family="Inter, sans-serif")),
+        hovermode="closest",
     )
     if height:
         layout["height"] = height
     if extra:
         layout.update(extra)
     fig.update_layout(**layout)
-    fig.update_xaxes(gridcolor=BORDER, zerolinecolor=BORDER,
-                     color=TEXT_MUTED, linecolor=BORDER)
-    fig.update_yaxes(gridcolor=BORDER, zerolinecolor=BORDER,
-                     color=TEXT_MUTED, linecolor=BORDER)
+    fig.update_xaxes(
+        gridcolor=BORDER, zerolinecolor=BORDER, gridwidth=1,
+        color=TEXT_MUTED, linecolor=BORDER, linewidth=1.5,
+        showline=True
+    )
+    fig.update_yaxes(
+        gridcolor=BORDER, zerolinecolor=BORDER, gridwidth=1,
+        color=TEXT_MUTED, linecolor=BORDER, linewidth=1.5,
+        showline=True
+    )
+    fig.update_traces(textfont_color=TEXT, hovertemplate=fig.data[0].hovertemplate if len(fig.data) > 0 else None)
     return fig
 
 
@@ -369,12 +415,12 @@ with tab_prev:
             values=df["stroke"].value_counts().values,
             hole=0.65,
             marker_colors=[ACCENT2, ACCENT3],
-            textfont_color=TEXT,
+            textfont=dict(color=TEXT, size=12),
             textinfo="percent+label",
         ))
         apply_theme(fig_d, extra=dict(showlegend=True,
             annotations=[dict(text=f"{sr:.1%}<br><span style='font-size:10px'>Stroke</span>",
-                              showarrow=False, font_size=18, font_color=TEXT)]))
+                              showarrow=False, font=dict(size=18, color=TEXT))]))
         st.plotly_chart(fig_d, use_container_width=True)
 
     with cr:
@@ -532,13 +578,24 @@ with tab_u:
 
     fig_bmi = go.Figure()
     fig_bmi.add_trace(go.Histogram(x=df["bmi"], name="After KNN Imputation",
-        nbinsx=60, marker_color=ACCENT2, opacity=0.7, histnorm="percent"))
+        nbinsx=60, marker_color=ACCENT2, opacity=0.7, histnorm="percent",
+        marker_line=dict(color=ACCENT2, width=0.5)))
     fig_bmi.add_trace(go.Histogram(x=df_raw2["bmi"].dropna(), name="Original (Non-missing)",
-        nbinsx=60, marker_color=ACCENT, opacity=0.7, histnorm="percent"))
-    apply_theme(fig_bmi, title="BMI Distribution — Before vs. After Imputation",
-                extra=dict(barmode="overlay"))
-    fig_bmi.update_xaxes(title_text="BMI")
-    fig_bmi.update_yaxes(title_text="Percent (%)")
+        nbinsx=60, marker_color=ACCENT, opacity=0.7, histnorm="percent",
+        marker_line=dict(color=ACCENT, width=0.5)))
+    fig_bmi.update_layout(
+        paper_bgcolor=SURFACE, plot_bgcolor=SURFACE,
+        font=dict(family="Inter, sans-serif", color=TEXT, size=12),
+        title=dict(text="BMI Distribution — Before vs. After Imputation",
+                   font=dict(family="Syne, sans-serif", size=16, color=TEXT)),
+        barmode="overlay",
+        legend=dict(bgcolor=SURFACE, bordercolor=BORDER, borderwidth=1, font=dict(color=TEXT)),
+        hoverlabel=dict(bgcolor=SURFACE, bordercolor=BORDER, font=dict(color=TEXT)),
+    )
+    fig_bmi.update_xaxes(title_text="BMI", gridcolor=BORDER, zerolinecolor=BORDER, 
+                         color=TEXT_MUTED, linecolor=BORDER, linewidth=1.5)
+    fig_bmi.update_yaxes(title_text="Percent (%)", gridcolor=BORDER, zerolinecolor=BORDER, 
+                         color=TEXT_MUTED, linecolor=BORDER, linewidth=1.5)
     st.plotly_chart(fig_bmi, use_container_width=True)
 
     # Class imbalance
@@ -577,11 +634,20 @@ with tab_e:
         sub = df[df["stroke"] == sv][num_var].dropna()
         fig_kde.add_trace(go.Violin(x=[lbl]*len(sub), y=sub, name=lbl,
             fillcolor=clr, opacity=0.7, line_color=clr,
-            meanline_visible=True, box_visible=True))
-    apply_theme(fig_kde,
-                title=f"Distribution of {num_var.replace('_',' ').title()} by Stroke",
-                extra=dict(violingroupgap=0.3, violingap=0.3))
-    fig_kde.update_yaxes(title_text=num_var.replace("_"," ").title())
+            meanline_visible=True, box_visible=True, 
+            points=False))
+    fig_kde.update_layout(
+        paper_bgcolor=SURFACE, plot_bgcolor=SURFACE,
+        font=dict(family="Inter, sans-serif", color=TEXT, size=12),
+        title=dict(text=f"Distribution of {num_var.replace('_',' ').title()} by Stroke",
+                   font=dict(family="Syne, sans-serif", size=16, color=TEXT)),
+        legend=dict(bgcolor=SURFACE, bordercolor=BORDER, borderwidth=1, font=dict(color=TEXT)),
+        hoverlabel=dict(bgcolor=SURFACE, bordercolor=BORDER, font=dict(color=TEXT)),
+        violingroupgap=0.3, violingap=0.3,
+    )
+    fig_kde.update_yaxes(title_text=num_var.replace("_"," ").title(), gridcolor=BORDER, 
+                         zerolinecolor=BORDER, color=TEXT_MUTED, linecolor=BORDER)
+    fig_kde.update_xaxes(gridcolor=BORDER, color=TEXT_MUTED, linecolor=BORDER)
     st.plotly_chart(fig_kde, use_container_width=True)
 
     st.markdown("<hr>", unsafe_allow_html=True)
@@ -697,17 +763,18 @@ with tab_s:
         title=dict(text="Stroke Probability by Age",
                    font=dict(family="Syne, sans-serif", size=16, color=TEXT)),
         xaxis=dict(title="Age (years)", gridcolor=BORDER,
-                   zerolinecolor=BORDER, color=TEXT_MUTED, linecolor=BORDER),
+                   zerolinecolor=BORDER, color=TEXT_MUTED, linecolor=BORDER, linewidth=1.5),
         yaxis=dict(title="Stroke Probability", tickformat=".0%",
                    gridcolor=BORDER, zerolinecolor=BORDER,
-                   color=TEXT_MUTED, linecolor=BORDER),
+                   color=TEXT_MUTED, linecolor=BORDER, linewidth=1.5),
         yaxis2=dict(title="Patient Count", overlaying="y", side="right",
                     showgrid=False, color=TEXT_MUTED),
         barmode="overlay",
-        legend=dict(orientation="h", y=-0.18, bgcolor=SURFACE2,
-                    bordercolor=BORDER, borderwidth=1, font_color=TEXT),
+        legend=dict(orientation="h", y=-0.18, bgcolor=SURFACE,
+                    bordercolor=BORDER, borderwidth=1, font=dict(color=TEXT)),
         margin=dict(t=50, b=70, l=40, r=70),
         colorway=SEQ_COLORS,
+        hoverlabel=dict(bgcolor=SURFACE, bordercolor=BORDER, font=dict(color=TEXT)),
     )
     st.plotly_chart(fig_age, use_container_width=True)
 
@@ -729,11 +796,14 @@ with tab_s:
             z=corr.values, x=corr.columns, y=corr.columns,
             colorscale=[[0,ACCENT2],[0.5,"#FFFFFF"],[1,ACCENT3]],
             zmid=0, zmin=-1, zmax=1,
-            text=np.round(corr.values,2), texttemplate="%{text}", textfont_size=11,
-            colorbar=dict(tickfont_color=TEXT_MUTED),
+            text=np.round(corr.values,2), texttemplate="%{text}", 
+            textfont=dict(size=11, color=TEXT),
+            colorbar=dict(tickfont=dict(color=TEXT_MUTED)),
+            hovertemplate="<b>%{x}</b> vs <b>%{y}</b><br>Correlation: %{z:.3f}<extra></extra>",
         ))
         apply_theme(fig_h, title="Pearson Correlation Heatmap", height=420)
-        fig_h.update_xaxes(tickangle=-35)
+        fig_h.update_xaxes(tickangle=-35, tickfont=dict(color=TEXT_MUTED))
+        fig_h.update_yaxes(tickfont=dict(color=TEXT_MUTED))
         st.plotly_chart(fig_h, use_container_width=True)
 
     with cs2:
@@ -747,11 +817,14 @@ with tab_s:
             z=cv_mat.values.astype(float), x=cv_mat.columns, y=cv_mat.columns,
             colorscale=[[0,"#FFFFFF"],[0.5,ACCENT2],[1,ACCENT]],
             zmin=0, zmax=1,
-            text=np.round(cv_mat.values.astype(float),2), texttemplate="%{text}", textfont_size=11,
-            colorbar=dict(tickfont_color=TEXT_MUTED),
+            text=np.round(cv_mat.values.astype(float),2), texttemplate="%{text}", 
+            textfont=dict(size=11, color=TEXT),
+            colorbar=dict(tickfont=dict(color=TEXT_MUTED)),
+            hovertemplate="<b>%{x}</b> vs <b>%{y}</b><br>Cramér's V: %{z:.3f}<extra></extra>",
         ))
         apply_theme(fig_cv, title="Cramér's V Heatmap (Categorical)", height=420)
-        fig_cv.update_xaxes(tickangle=-35)
+        fig_cv.update_xaxes(tickangle=-35, tickfont=dict(color=TEXT_MUTED))
+        fig_cv.update_yaxes(tickfont=dict(color=TEXT_MUTED))
         st.plotly_chart(fig_cv, use_container_width=True)
 
     st.markdown("<hr>", unsafe_allow_html=True)
@@ -767,6 +840,13 @@ with tab_s:
             color_discrete_map={0:ACCENT2, 1:ACCENT3},
             labels={c:c.replace("_"," ").title() for c in pair_cols}, opacity=0.5)
         fig_p.update_traces(diagonal_visible=False, marker_size=3)
+        fig_p.update_layout(
+            paper_bgcolor=SURFACE, plot_bgcolor=SURFACE,
+            font=dict(color=TEXT, family="Inter, sans-serif"),
+            hoverlabel=dict(bgcolor=SURFACE, bordercolor=BORDER, font=dict(color=TEXT)),
+        )
+        fig_p.for_each_xaxis(lambda a: a.update(gridcolor=BORDER, zerolinecolor=BORDER, color=TEXT_MUTED, linecolor=BORDER))
+        fig_p.for_each_yaxis(lambda a: a.update(gridcolor=BORDER, zerolinecolor=BORDER, color=TEXT_MUTED, linecolor=BORDER))
         apply_theme(fig_p, title="Pairwise Scatter (sample n=1,500)", height=500)
         st.plotly_chart(fig_p, use_container_width=True)
     else:
@@ -788,8 +868,17 @@ with tab_s:
     fig_int.add_hline(y=gluc_thresh,
         line=dict(color=ACCENT4, width=2, dash="dash"),
         annotation_text=f"Threshold: {gluc_thresh} mg/dL",
-        annotation_font_color=ACCENT4)
-    apply_theme(fig_int, title="Age vs. Glucose — Stroke Incidence (sample n=2,000)")
+        annotation_font=dict(color=ACCENT4, size=12))
+    fig_int.update_layout(
+        paper_bgcolor=SURFACE, plot_bgcolor=SURFACE,
+        font=dict(family="Inter, sans-serif", color=TEXT, size=12),
+        title=dict(text="Age vs. Glucose — Stroke Incidence (sample n=2,000)",
+                   font=dict(family="Syne, sans-serif", size=16, color=TEXT)),
+        hoverlabel=dict(bgcolor=SURFACE, bordercolor=BORDER, font=dict(color=TEXT)),
+        legend=dict(bgcolor=SURFACE, bordercolor=BORDER, borderwidth=1, font=dict(color=TEXT)),
+    )
+    fig_int.for_each_xaxis(lambda a: a.update(gridcolor=BORDER, zerolinecolor=BORDER, color=TEXT_MUTED, linecolor=BORDER))
+    fig_int.for_each_yaxis(lambda a: a.update(gridcolor=BORDER, zerolinecolor=BORDER, color=TEXT_MUTED, linecolor=BORDER))
     st.plotly_chart(fig_int, use_container_width=True)
 
     age_med = df["age"].median()
@@ -807,7 +896,8 @@ with tab_s:
                     colorscale=[[0,ACCENT2],[1,ACCENT3]],
                     showscale=False),
         text=[f"{r:.1%}" for r in q_rates], textposition="outside",
-        textfont=dict(color=TEXT),
+        textfont=dict(color=TEXT, size=12),
+        hovertemplate="<b>%{x}</b><br>Stroke Rate: %{y:.1%}<extra></extra>",
     ))
     apply_theme(fig_quad, title="Stroke Rate by Age–Glucose Quadrant")
     fig_quad.update_yaxes(title_text="Stroke Rate", tickformat=".1%")
@@ -869,14 +959,15 @@ with tab_t:
     fig_r = go.Figure()
     fig_r.add_vline(x=baseline, line=dict(color=ACCENT4, width=2, dash="dot"),
                     annotation_text=f"Baseline {baseline:.1%}",
-                    annotation_font_color=ACCENT4)
+                    annotation_font=dict(color=ACCENT4, size=12))
     fig_r.add_trace(go.Bar(
         y=rdf["Factor"], x=rdf["Stroke Rate"], orientation="h",
         marker=dict(color=rdf["Stroke Rate"].tolist(),
                     colorscale=[[0,ACCENT2],[1,ACCENT3]],
                     showscale=False),
         text=[f"{r:.1%}  ({l:.1f}x)" for r,l in zip(rdf["Stroke Rate"],rdf["Lift"])],
-        textposition="outside", textfont=dict(color=TEXT),
+        textposition="outside", textfont=dict(color=TEXT, size=11),
+        hovertemplate="<b>%{y}</b><br>Stroke Rate: %{x:.1%}<extra></extra>",
     ))
     apply_theme(fig_r, title="Stroke Rate by Risk Factor vs. Population Baseline",
                 height=420, extra=dict(margin=dict(l=160,r=110,t=50,b=40)))
