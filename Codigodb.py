@@ -457,17 +457,17 @@ with tab_u:
         </div>
         """, unsafe_allow_html=True)
 
-# ── Imagen + descripción ──
-import base64
+    # ── Imagen + descripción ──
+    import base64
 
-with open("tablaMAR.png", "rb") as f:
-    img_data = base64.b64encode(f.read()).decode()
+    with open("tablaMAR.png", "rb") as f:
+        img_data = base64.b64encode(f.read()).decode()
 
     st.markdown(f"""
         <div style="text-align: center;">
             <img src="data:image/png;base64,{img_data}" style="width: 50%; border-radius: 8px;">
         </div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
     st.markdown("""
         <div class="section-subtitle" style="margin-top: 8px;">
             El artículo concluye proponiendo una sistematización de los métodos de eliminación e imputación existentes en la literatura, organizándolos de acuerdo con el mecanismo de datos faltantes correspondiente en cada escenario (MCAR, MAR MNAR).
