@@ -386,6 +386,14 @@ with tab_prev:
             "Role":     ["ID","Feature","Feature","Feature","Feature","Feature",
                          "Feature","Feature","Feature","Feature","Feature","Target"],
         }), use_container_width=True, hide_index=True)
+        
+    st.markdown("""
+        <div class="insight-box">
+            <strong>Dataset at a glance:</strong> 5,110 patient records with 11 features.
+            The dataset is heavily imbalanced (≈95% no-stroke). Only <code>bmi</code> contains missing values (≈3.9%).
+            Analysis follows the <strong>Q-U-E-S-T</strong> analytical framework.
+        </div>
+        """, unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════  Q
