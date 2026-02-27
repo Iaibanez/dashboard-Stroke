@@ -322,7 +322,7 @@ if not data_loaded:
 #  TABS
 # ─────────────────────────────────────────────
 tab_prev, tab_q, tab_u, tab_e, tab_s, tab_t = st.tabs([
-    "🧠 Overview", "Q · Question", "U · Understand",
+    "Overview", "Q · Question", "U · Understand",
     "E · Explore",  "S · Study",   "T · Tell",
 ])
 
@@ -442,7 +442,7 @@ with tab_u:
     </div>""", unsafe_allow_html=True)
 
     # Missing audit
-    st.markdown('<div class="section-title" style="margin-top:8px">⚠️ Missing Value Audit</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title" style="margin-top:8px">Missing Value Audit</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-subtitle">Identifying null values across all features before imputation.</div>', unsafe_allow_html=True)
     # CITA DEL ARTICULO
     st.markdown("""
@@ -460,7 +460,7 @@ with tab_u:
 # ── Imagen + descripción ──
     st.image(
             "tablaMAR.png",          # ← reemplaza con la ruta o URL de tu imagen
-            use_container_width=True,width =200, 
+            use_container_width=True,width =50, 
         )
     st.markdown("""
         <div class="section-subtitle" style="margin-top: 8px;">
@@ -601,7 +601,7 @@ with tab_e:
     """, unsafe_allow_html=True)
 
     # ── Descriptive Statistics Table ──
-    st.markdown('<div class="section-title">📋 Descriptive Statistics — Numerical Variables</div>',
+    st.markdown('<div class="section-title">Descriptive Statistics — Numerical Variables</div>',
                 unsafe_allow_html=True)
     st.markdown('<div class="section-subtitle">Summary statistics (mean, median, std, min, max, quartiles) for all continuous features in the dataset.</div>',
                 unsafe_allow_html=True)
@@ -615,7 +615,7 @@ with tab_e:
     st.markdown("<hr>", unsafe_allow_html=True)
 
     # ── Numerical Histograms ──
-    st.markdown('<div class="section-title">📊 Numerical Variables — Individual Distributions</div>',
+    st.markdown('<div class="section-title">Numerical Variables — Individual Distributions</div>',
                 unsafe_allow_html=True)
     st.markdown('<div class="section-subtitle">Histograms with density overlay for each continuous feature — examined independently, without grouping by stroke outcome.</div>',
                 unsafe_allow_html=True)
@@ -679,7 +679,7 @@ with tab_e:
     st.markdown("<hr>", unsafe_allow_html=True)
 
     # ── All 3 numerical distributions side by side ──
-    st.markdown('<div class="section-title">📈 All Numerical Variables — Side-by-Side Overview</div>',
+    st.markdown('<div class="section-title">All Numerical Variables — Side-by-Side Overview</div>',
                 unsafe_allow_html=True)
     st.markdown('<div class="section-subtitle">Quick visual comparison of the shape and spread of each continuous feature across the full dataset.</div>',
                 unsafe_allow_html=True)
@@ -703,7 +703,7 @@ with tab_e:
     st.markdown("<hr>", unsafe_allow_html=True)
 
     # ── Categorical Frequency Charts ──
-    st.markdown('<div class="section-title">🗂️ Categorical Variables — Frequency Distribution</div>',
+    st.markdown('<div class="section-title">Categorical Variables — Frequency Distribution</div>',
                 unsafe_allow_html=True)
     st.markdown('<div class="section-subtitle">Count and proportion of each category within each categorical feature, examined independently.</div>',
                 unsafe_allow_html=True)
@@ -766,7 +766,7 @@ with tab_s:
     """, unsafe_allow_html=True)
 
     # ── Numerical Variables by Stroke (moved from E) ──
-    st.markdown('<div class="section-title">📦 Numerical Variables — Distribution by Stroke Outcome</div>',
+    st.markdown('<div class="section-title">Numerical Variables — Distribution by Stroke Outcome</div>',
                 unsafe_allow_html=True)
     st.markdown('<div class="section-subtitle">Violin + box plots comparing the distribution of each continuous feature between stroke and non-stroke patients.</div>',
                 unsafe_allow_html=True)
@@ -787,7 +787,7 @@ with tab_s:
     st.markdown("<hr>", unsafe_allow_html=True)
 
     # ── Categorical Stroke Rate (moved from E) ──
-    st.markdown('<div class="section-title">📊 Categorical Variables — Stroke Rate by Category</div>',
+    st.markdown('<div class="section-title">Categorical Variables — Stroke Rate by Category</div>',
                 unsafe_allow_html=True)
     st.markdown('<div class="section-subtitle">Stroke rate for every category of each categorical feature, sorted from highest to lowest risk. This is a bivariate view: category × stroke outcome.</div>',
                 unsafe_allow_html=True)
@@ -847,7 +847,7 @@ with tab_s:
     st.markdown("<hr>", unsafe_allow_html=True)
 
     # ── Age slider (moved from Explore) ──
-    st.markdown('<div class="section-title">🎚️ Age & Stroke Risk — Interactive Explorer</div>',
+    st.markdown('<div class="section-title">Age & Stroke Risk — Interactive Explorer</div>',
                 unsafe_allow_html=True)
     st.markdown('<div class="section-subtitle">Use the slider to define an age window and observe how stroke probability changes.</div>',
                 unsafe_allow_html=True)
@@ -1078,7 +1078,7 @@ with tab_t:
 
     st.markdown(f"""<div class="quest-card" style="border-left:3px solid #7C3AED;margin-top:8px;">
       <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
-                  color:{TEXT};margin-bottom:10px;">📌 Recommended Next Steps</div>
+                  color:{TEXT};margin-bottom:10px;">Recommended Next Steps</div>
       <div style="font-size:13px;color:{TEXT_MUTED};line-height:1.9;">
         <strong style="color:{TEXT}">1. Address class imbalance</strong> — Apply SMOTE or cost-sensitive classifiers before modeling.<br>
         <strong style="color:{TEXT}">2. Feature engineering</strong> — Create interaction terms (age × hypertension, age × glucose).<br>
