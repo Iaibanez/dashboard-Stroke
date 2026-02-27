@@ -585,12 +585,180 @@ with tab_e:
       <span class="letter-badge">E</span>
       <span class="section-title" style="margin-bottom:0">Explore — Univariate Profiling</span>
     </div>
-    <div class="section-subtitle">Distribution of stroke rate across every categorical and numerical variable.</div>
+    <div class="section-subtitle">Independent distribution of each variable — shape, central tendency, spread, and frequency. No cross-variable relationships here.</div>
     """, unsafe_allow_html=True)
 
-    # ── Numerical violin ──
-    st.markdown('<div class="section-title">Numerical Variables — Distribution by Stroke</div>',
+    # ── Descriptive Statistics Table ──
+    st.markdown('<div class="section-title">📋 Descriptive Statistics — Numerical Variables</div>',
                 unsafe_allow_html=True)
+    st.markdown('<div class="section-subtitle">Summary statistics (mean, median, std, min, max, quartiles) for all continuous features in the dataset.</div>',
+                unsafe_allow_html=True)
+
+    num_desc_cols = ["age", "avg_glucose_level", "bmi"]
+    desc = df[num_desc_cols].describe().T.round(2)
+    desc.index = ["Age (years)", "Avg Glucose (mg/dL)", "BMI"]
+    desc.columns = ["Count", "Mean", "Std Dev", "Min", "Q1 (25%)", "Median (50%)", "Q3 (75%)", "Max"]
+    st.dataframe(desc, use_container_width=True)
+
+    st.markdown("<hr>", unsafe_allow_html=True)
+
+    # ── Numerical Histograms ──
+    st.markdown('<div class="section-title">📊 Numerical Variables — Individual Distributions</div>',
+                unsafe_allow_html=True)
+    st.markdown('<div class="section-subtitle">Histograms with density overlay for each continuous feature — examined independently, without grouping by stroke outcome.</div>',
+                unsafe_allow_html=True)
+
+    num_uni_var = st.selectbox("Select variable to explore", ["age", "avg_glucose_level", "bmi"], index=0)
+
+    col_hist, col_box = st.columns([1.6, 1])
+
+    with col_hist:
+        series = df[num_uni_var].dropna()
+        mean_v = series.mean()
+        med_v  = series.median()
+        std_v  = series.std()
+        fig_hist = go.Figure()
+        fig_hist.add_trace(go.Histogram(
+            x=series, nbinsx=50,
+            marker_color=ACCENT2, opacity=0.75,
+            name="Frequency",
+            histnorm="percent",
+        ))
+        fig_hist.add_vline(x=mean_v, line=dict(color=ACCENT3, width=2, dash="dash"),
+                           annotation_text=f"Mean: {mean_v:.1f}",
+                           annotation_font_color=ACCENT3,
+                           annotation_position="top right")
+        fig_hist.add_vline(x=med_v, line=dict(color=ACCENT4, width=2, dash="dot"),
+                           annotation_text=f"Median: {med_v:.1f}",
+                           annotation_font_color=ACCENT4,
+                           annotation_position="top left")
+        apply_theme(fig_hist,
+                    title=f"Distribution of {num_uni_var.replace('_',' ').title()} (full dataset)",
+                    height=380)
+        fig_hist.update_xaxes(title_text=num_uni_var.replace("_"," ").title())
+        fig_hist.update_yaxes(title_text="Percent (%)")
+        st.plotly_chart(fig_hist, use_container_width=True)
+
+    with col_box:
+        fig_box = go.Figure()
+        fig_box.add_trace(go.Box(
+            y=series, name=num_uni_var.replace("_"," ").title(),
+            marker_color=ACCENT2, line_color=ACCENT2,
+            boxmean="sd", fillcolor=ACCENT2,
+            opacity=0.65,
+        ))
+        apply_theme(fig_box,
+                    title=f"Box Plot — {num_uni_var.replace('_',' ').title()}",
+                    height=380)
+        fig_box.update_yaxes(title_text=num_uni_var.replace("_"," ").title())
+        st.plotly_chart(fig_box, use_container_width=True)
+
+    # KPIs for selected variable
+    k1, k2, k3, k4 = st.columns(4)
+    for col, val, lbl, clr in [
+        (k1, f"{mean_v:.2f}",  "Mean",    ACCENT2),
+        (k2, f"{med_v:.2f}",   "Median",  ACCENT4),
+        (k3, f"{std_v:.2f}",   "Std Dev", ACCENT),
+        (k4, f"{series.skew():.2f}", "Skewness", ACCENT3),
+    ]:
+        with col:
+            st.markdown(kpi_html(val, lbl, border_color=clr), unsafe_allow_html=True)
+
+    st.markdown("<hr>", unsafe_allow_html=True)
+
+    # ── All 3 numerical distributions side by side ──
+    st.markdown('<div class="section-title">📈 All Numerical Variables — Side-by-Side Overview</div>',
+                unsafe_allow_html=True)
+    st.markdown('<div class="section-subtitle">Quick visual comparison of the shape and spread of each continuous feature across the full dataset.</div>',
+                unsafe_allow_html=True)
+
+    ov_cols = st.columns(3)
+    for i, (vc, vl) in enumerate([("age","Age (years)"), ("avg_glucose_level","Avg Glucose (mg/dL)"), ("bmi","BMI")]):
+        with ov_cols[i]:
+            s = df[vc].dropna()
+            fig_ov = go.Figure()
+            fig_ov.add_trace(go.Histogram(
+                x=s, nbinsx=40,
+                marker_color=SEQ_COLORS[i], opacity=0.8,
+                histnorm="percent", name=vl,
+            ))
+            fig_ov.add_vline(x=s.mean(), line=dict(color=TEXT_MUTED, width=1.5, dash="dash"))
+            apply_theme(fig_ov, title=vl, height=300)
+            fig_ov.update_xaxes(title_text=vl)
+            fig_ov.update_yaxes(title_text="%")
+            st.plotly_chart(fig_ov, use_container_width=True)
+
+    st.markdown("<hr>", unsafe_allow_html=True)
+
+    # ── Categorical Frequency Charts ──
+    st.markdown('<div class="section-title">🗂️ Categorical Variables — Frequency Distribution</div>',
+                unsafe_allow_html=True)
+    st.markdown('<div class="section-subtitle">Count and proportion of each category within each categorical feature, examined independently.</div>',
+                unsafe_allow_html=True)
+
+    cat_uni_vars = [
+        ("gender",          "Gender"),
+        ("ever_married",    "Ever Married"),
+        ("work_type",       "Work Type"),
+        ("Residence_type",  "Residence Type"),
+        ("smoking_status",  "Smoking Status"),
+        ("hypertension",    "Hypertension (0/1)"),
+        ("heart_disease",   "Heart Disease (0/1)"),
+        ("stroke",          "Stroke — Target (0/1)"),
+    ]
+
+    for i in range(0, len(cat_uni_vars), 2):
+        row_cols = st.columns(2)
+        for j in range(2):
+            idx = i + j
+            if idx >= len(cat_uni_vars):
+                break
+            vk, vl = cat_uni_vars[idx]
+            with row_cols[j]:
+                vc_counts = df[vk].astype(str).value_counts().reset_index()
+                vc_counts.columns = [vk, "count"]
+                vc_counts["pct"] = vc_counts["count"] / vc_counts["count"].sum()
+                vc_counts = vc_counts.sort_values("count", ascending=False)
+
+                fig_vc = go.Figure()
+                fig_vc.add_trace(go.Bar(
+                    x=vc_counts[vk],
+                    y=vc_counts["count"],
+                    marker_color=SEQ_COLORS[:len(vc_counts)],
+                    text=[f"{p:.1%}" for p in vc_counts["pct"]],
+                    textposition="outside",
+                    textfont=dict(color=TEXT, size=11),
+                    hovertemplate="<b>%{x}</b><br>Count: %{y:,}<extra></extra>",
+                ))
+                apply_theme(fig_vc, title=f"Frequency: {vl}", height=300)
+                fig_vc.update_yaxes(title_text="Count")
+                fig_vc.update_xaxes(title_text=vl)
+                st.plotly_chart(fig_vc, use_container_width=True)
+
+    st.markdown("""<div class="insight-box">
+        <strong>Univariate observations:</strong> Age is right-skewed with a concentration of patients
+        between 40–70 years. Glucose is bimodal, suggesting two sub-populations. BMI approximates a
+        normal distribution centred ~28. The dataset is dominated by female patients, married individuals,
+        and private-sector workers. Stroke (target) is severely imbalanced at ≈5% positive class.
+    </div>""", unsafe_allow_html=True)
+
+
+# ══════════════════════════════════════════════  S  — Relationships & Patterns
+with tab_s:
+    st.markdown(f"""
+    <div style="display:flex;align-items:center;margin-bottom:6px;">
+      <span class="letter-badge">S</span>
+      <span class="section-title" style="margin-bottom:0">Study — Multivariate Analysis & Relationships</span>
+    </div>
+    <div class="section-subtitle">Cross-variable patterns: how each feature relates to stroke outcome and to other variables.</div>
+    """, unsafe_allow_html=True)
+
+    # ── Numerical Variables by Stroke (moved from E) ──
+    st.markdown('<div class="section-title">📦 Numerical Variables — Distribution by Stroke Outcome</div>',
+                unsafe_allow_html=True)
+    st.markdown('<div class="section-subtitle">Violin + box plots comparing the distribution of each continuous feature between stroke and non-stroke patients.</div>',
+                unsafe_allow_html=True)
+
     num_var = st.selectbox("Select variable", ["age", "avg_glucose_level", "bmi"], index=0)
     fig_kde = go.Figure()
     for sv, clr, lbl in [(0, ACCENT2, "No Stroke"), (1, ACCENT3, "Stroke")]:
@@ -599,20 +767,20 @@ with tab_e:
             fillcolor=clr, opacity=0.7, line_color=clr,
             meanline_visible=True, box_visible=True))
     apply_theme(fig_kde,
-                title=f"Distribution of {num_var.replace('_',' ').title()} by Stroke",
+                title=f"Distribution of {num_var.replace('_',' ').title()} by Stroke Outcome",
                 extra=dict(violingroupgap=0.3, violingap=0.3))
     fig_kde.update_yaxes(title_text=num_var.replace("_"," ").title())
     st.plotly_chart(fig_kde, use_container_width=True)
 
     st.markdown("<hr>", unsafe_allow_html=True)
 
-    # ── All 6 categorical variables in 2-col grid ──
-    st.markdown('<div class="section-title">Categorical Variables — Stroke Rate by Category</div>',
+    # ── Categorical Stroke Rate (moved from E) ──
+    st.markdown('<div class="section-title">📊 Categorical Variables — Stroke Rate by Category</div>',
                 unsafe_allow_html=True)
-    st.markdown('<div class="section-subtitle">Stroke rate for every category of each categorical feature, sorted from highest to lowest risk.</div>',
+    st.markdown('<div class="section-subtitle">Stroke rate for every category of each categorical feature, sorted from highest to lowest risk. This is a bivariate view: category × stroke outcome.</div>',
                 unsafe_allow_html=True)
 
-    cat_vars = [
+    cat_vars_s = [
         ("gender",         "Gender"),
         ("hypertension",   "Hypertension"),
         ("heart_disease",  "Heart Disease"),
@@ -621,13 +789,13 @@ with tab_e:
         ("smoking_status", "Smoking Status"),
     ]
 
-    for i in range(0, len(cat_vars), 2):
+    for i in range(0, len(cat_vars_s), 2):
         row_cols = st.columns(2)
         for j in range(2):
             idx = i + j
-            if idx >= len(cat_vars):
+            if idx >= len(cat_vars_s):
                 break
-            vk, vl = cat_vars[idx]
+            vk, vl = cat_vars_s[idx]
             with row_cols[j]:
                 cs = (df.groupby(vk)["stroke"]
                         .agg(["mean","sum","count"])
@@ -664,14 +832,7 @@ with tab_e:
         confounding. Work type shows high rates for self-employed patients, also likely age-related.
     </div>""", unsafe_allow_html=True)
 
-
-# ══════════════════════════════════════════════  S  — Relationships & Patterns
-with tab_s:
-    st.markdown(f"""
-    <div style="display:flex;align-items:center;margin-bottom:6px;">
-      <span class="letter-badge">S</span>
-      <span class="section-title" style="margin-bottom:0">Study — Relationships & Patterns</span>
-    </div>""", unsafe_allow_html=True)
+    st.markdown("<hr>", unsafe_allow_html=True)
 
     # ── Age slider (moved from Explore) ──
     st.markdown('<div class="section-title">🎚️ Age & Stroke Risk — Interactive Explorer</div>',
