@@ -459,7 +459,7 @@ with tab_u:
 
 # ── Imagen + descripción ──
 st.image(
-    "RUTA_DE_LA_IMAGEN",          # ← reemplaza con la ruta o URL de tu imagen
+    "tablaMAR.png",          # ← reemplaza con la ruta o URL de tu imagen
     use_container_width=True,
 )
 st.markdown("""
