@@ -332,6 +332,7 @@ with tab_prev:
     st.markdown(f"""
     <div class="hero-wrap">
       <div class="hero-tag">Healthcare Analytics · Group 4</div>
+      <div class="hero-tag">Gina Paola Huguet Berdugo, Iván Andres Ibañez Castillo, Leiry Laura Mares Cure, Jorge Ernesto Salazar Arrieta </div>
       <div class="hero-title">Stroke Prediction<br>Analysis Dashboard</div>
       <div class="hero-body">
         According to the World Health Organization (WHO), stroke is the
