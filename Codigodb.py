@@ -275,20 +275,27 @@ st.markdown(f"""
 # ─────────────────────────────────────────────
 #  PLOTLY TEMPLATE
 # ─────────────────────────────────────────────
-PLOTLY_LAYOUT = dict(
-    paper_bgcolor=PALETTE["surface"],
-    plot_bgcolor=PALETTE["surface"],
-    font=dict(family="Inter, sans-serif", color=PALETTE["text"], size=12),
-    title_font=dict(family="Syne, sans-serif", size=16, color=PALETTE["text"]),
-    xaxis=dict(gridcolor=PALETTE["border"], zerolinecolor=PALETTE["border"], color=PALETTE["text_muted"]),
-    yaxis=dict(gridcolor=PALETTE["border"], zerolinecolor=PALETTE["border"], color=PALETTE["text_muted"]),
-    legend=dict(bgcolor=PALETTE["surface2"], bordercolor=PALETTE["border"], borderwidth=1, font_color=PALETTE["text"]),
-    margin=dict(t=50, b=40, l=40, r=20),
-    colorway=SEQ_COLORS,
-)
-
-def apply_theme(fig):
-    fig.update_layout(**PLOTLY_LAYOUT)
+def apply_theme(fig, title="", height=None, extra=None):
+    """Apply consistent dark theme without axis key conflicts."""
+    layout = dict(
+        paper_bgcolor=PALETTE["surface"],
+        plot_bgcolor=PALETTE["surface"],
+        font=dict(family="Inter, sans-serif", color=PALETTE["text"], size=12),
+        title=dict(text=title, font=dict(family="Syne, sans-serif", size=16, color=PALETTE["text"])),
+        legend=dict(bgcolor=PALETTE["surface2"], bordercolor=PALETTE["border"],
+                    borderwidth=1, font_color=PALETTE["text"]),
+        margin=dict(t=50, b=40, l=40, r=20),
+        colorway=SEQ_COLORS,
+    )
+    if height:
+        layout["height"] = height
+    if extra:
+        layout.update(extra)
+    fig.update_layout(**layout)
+    fig.update_xaxes(gridcolor=PALETTE["border"], zerolinecolor=PALETTE["border"],
+                     color=PALETTE["text_muted"])
+    fig.update_yaxes(gridcolor=PALETTE["border"], zerolinecolor=PALETTE["border"],
+                     color=PALETTE["text_muted"])
     return fig
 
 
@@ -460,12 +467,11 @@ with tab_preview:
             textfont_color=PALETTE["text"],
             textinfo="percent+label",
         ))
-        fig_donut.update_layout(
-            **PLOTLY_LAYOUT,
+        apply_theme(fig_donut, extra=dict(
             showlegend=True,
             annotations=[dict(text=f"{stroke_rate:.1%}<br><span style='font-size:10px'>Stroke</span>",
                               showarrow=False, font_size=18, font_color=PALETTE["text"])],
-        )
+        ))
         st.plotly_chart(fig_donut, use_container_width=True)
 
     # Variables overview table
@@ -591,9 +597,7 @@ with tab_u:
                              marker_color=PALETTE["accent2"], opacity=0.85))
     fig_mar.add_trace(go.Bar(name="BMI Missing",  x=cols_comp, y=vals_true,
                              marker_color=PALETTE["accent4"], opacity=0.85))
-    fig_mar.update_layout(**PLOTLY_LAYOUT, barmode="group",
-                          title="Mean Values: BMI Present vs. BMI Missing")
-    apply_theme(fig_mar)
+    apply_theme(fig_mar, title="Mean Values: BMI Present vs. BMI Missing", extra=dict(barmode="group"))
     st.plotly_chart(fig_mar, use_container_width=True)
 
     st.markdown("""
@@ -634,9 +638,9 @@ with tab_u:
         x=df_raw2["bmi"].dropna(), name="Original (Non-missing)",
         nbinsx=60, marker_color=PALETTE["gradient_a"], opacity=0.7,
         histnorm="percent"))
-    fig_bmi.update_layout(**PLOTLY_LAYOUT, barmode="overlay",
-                          title="BMI Distribution — Before vs. After Imputation",
-                          xaxis_title="BMI", yaxis_title="Percent")
+    apply_theme(fig_bmi, title="BMI Distribution — Before vs. After Imputation", extra=dict(barmode="overlay"))
+    fig_bmi.update_xaxes(title_text="BMI")
+    fig_bmi.update_yaxes(title_text="Percent")
     st.plotly_chart(fig_bmi, use_container_width=True)
 
     # ── Class imbalance ──
@@ -768,10 +772,9 @@ with tab_e:
             line_color=color, meanline_visible=True,
             box_visible=True,
         ))
-    fig_kde.update_layout(**PLOTLY_LAYOUT,
-                          title=f"Distribution of {num_var.replace('_', ' ').title()} by Stroke",
-                          yaxis_title=num_var.replace("_", " ").title(),
-                          violingroupgap=0.3, violingap=0.3)
+    apply_theme(fig_kde, title=f"Distribution of {num_var.replace('_', ' ').title()} by Stroke",
+                     extra=dict(violingroupgap=0.3, violingap=0.3))
+    fig_kde.update_yaxes(title_text=num_var.replace("_", " ").title())
     st.plotly_chart(fig_kde, use_container_width=True)
 
     st.markdown("<hr>", unsafe_allow_html=True)
@@ -796,9 +799,8 @@ with tab_e:
         text=[f"{r:.1%}" for r in cat_stroke["stroke_rate"]],
         textposition="outside", textfont_color=PALETTE["text"],
     ))
-    fig_cat.update_layout(**PLOTLY_LAYOUT,
-                          title=f"Stroke Rate by {cat_var.replace('_', ' ').title()}",
-                          yaxis_title="Stroke Rate", yaxis_tickformat=".1%")
+    apply_theme(fig_cat, title=f"Stroke Rate by {cat_var.replace('_', ' ').title()}")
+    fig_cat.update_yaxes(title_text="Stroke Rate", tickformat=".1%")
     st.plotly_chart(fig_cat, use_container_width=True)
 
 
@@ -830,9 +832,8 @@ with tab_s:
             textfont_size=11,
             colorbar=dict(tickfont_color=PALETTE["text"]),
         ))
-        fig_heat.update_layout(**PLOTLY_LAYOUT, title="Pearson Correlation Heatmap",
-                               xaxis=dict(tickangle=-35, color=PALETTE["text_muted"]),
-                               height=420)
+        apply_theme(fig_heat, title="Pearson Correlation Heatmap", height=420)
+        fig_heat.update_xaxes(tickangle=-35)
         st.plotly_chart(fig_heat, use_container_width=True)
 
     # ── Cramér's V heatmap ──
@@ -853,9 +854,8 @@ with tab_s:
             textfont_size=11,
             colorbar=dict(tickfont_color=PALETTE["text"]),
         ))
-        fig_cv.update_layout(**PLOTLY_LAYOUT, title="Cramér's V Heatmap (Categorical)",
-                             xaxis=dict(tickangle=-35, color=PALETTE["text_muted"]),
-                             height=420)
+        apply_theme(fig_cv, title="Cramér's V Heatmap (Categorical)", height=420)
+        fig_cv.update_xaxes(tickangle=-35)
         st.plotly_chart(fig_cv, use_container_width=True)
 
     st.markdown("<hr>", unsafe_allow_html=True)
@@ -876,7 +876,7 @@ with tab_s:
             opacity=0.5,
         )
         fig_pair.update_traces(diagonal_visible=False, marker_size=3)
-        fig_pair.update_layout(**PLOTLY_LAYOUT, title="Pairwise Scatter (sample n=1,500)", height=500)
+        apply_theme(fig_pair, title="Pairwise Scatter (sample n=1,500)", height=500)
         st.plotly_chart(fig_pair, use_container_width=True)
     else:
         st.info("Select at least 2 variables.")
@@ -901,7 +901,7 @@ with tab_s:
                       line=dict(color=PALETTE["accent4"], width=2, dash="dash"),
                       annotation_text=f"Threshold: {gluc_thresh} mg/dL",
                       annotation_font_color=PALETTE["accent4"])
-    fig_int.update_layout(**PLOTLY_LAYOUT, title="Age vs. Glucose — Stroke Incidence (sample n=2,000)")
+    apply_theme(fig_int, title="Age vs. Glucose — Stroke Incidence (sample n=2,000)")
     st.plotly_chart(fig_int, use_container_width=True)
 
     # Quadrant summary
@@ -924,8 +924,8 @@ with tab_s:
         text=[f"{r:.1%}" for r in q_rates], textposition="outside",
         textfont_color=PALETTE["text"],
     ))
-    fig_quad.update_layout(**PLOTLY_LAYOUT, title="Stroke Rate by Age–Glucose Quadrant",
-                           yaxis_title="Stroke Rate", yaxis_tickformat=".1%")
+    apply_theme(fig_quad, title="Stroke Rate by Age–Glucose Quadrant")
+    fig_quad.update_yaxes(title_text="Stroke Rate", tickformat=".1%")
     st.plotly_chart(fig_quad, use_container_width=True)
 
 
@@ -1015,10 +1015,9 @@ with tab_t:
         text=[f"{r:.1%}  ({l:.1f}x)" for r, l in zip(risk_df["Stroke Rate"], risk_df["Lift"])],
         textposition="outside", textfont_color=PALETTE["text"],
     ))
-    fig_risk.update_layout(**PLOTLY_LAYOUT,
-                           title="Stroke Rate by Risk Factor vs. Population Baseline",
-                           xaxis_title="Stroke Rate", xaxis_tickformat=".1%",
-                           height=420, margin=dict(l=160, r=80, t=50, b=40))
+    apply_theme(fig_risk, title="Stroke Rate by Risk Factor vs. Population Baseline",
+                   height=420, extra=dict(margin=dict(l=160, r=80, t=50, b=40)))
+    fig_risk.update_xaxes(title_text="Stroke Rate", tickformat=".1%")
     st.plotly_chart(fig_risk, use_container_width=True)
 
     # ── Next steps ──
