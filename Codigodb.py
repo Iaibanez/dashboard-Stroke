@@ -547,7 +547,7 @@ with tab_u:
     st.markdown("""<div class="insight-box">
         <strong>Insight:</strong> The missing-BMI group is on average <strong>younger</strong> and shows
         <strong>lower rates</strong> of hypertension, heart disease, and stroke — suggesting data is
-        <strong>Missing Not At Random (MNAR)</strong>. A <strong>KNN Imputer (k=5, distance-weighted)</strong>
+        <strong>Missing At Random (MAR)</strong>. A <strong>KNN Imputer (k=5, distance-weighted)</strong>
         was used to fill these values preserving clinical context.
     </div>""", unsafe_allow_html=True)
 
