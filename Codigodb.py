@@ -545,8 +545,8 @@ with tab_u:
         st.dataframe(ref_tbl, use_container_width=True, hide_index=True)
 
     st.markdown("""<div class="insight-box">
-        <strong>Insight:</strong> The missing-BMI group is on average <strong>younger</strong> and shows
-        <strong>lower rates</strong> of hypertension, heart disease, and stroke — suggesting data is
+        <strong>Insight:</strong> The missing-BMI group is on average <strong>older</strong> and shows
+        <strong>higher rates</strong> of hypertension, heart disease, and stroke — suggesting data is
         <strong>Missing At Random (MAR)</strong>. A <strong>KNN Imputer (k=5, distance-weighted)</strong>
         was used to fill these values preserving clinical context.
     </div>""", unsafe_allow_html=True)
